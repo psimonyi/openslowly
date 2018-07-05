@@ -1,0 +1,51 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@import url('chrome://global/skin/in-content/common.css');
+
+main {
+    margin-top: 3em;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 40em;
+}
+
+.error-message {
+    background-color: #ffe68f;
+}
+
+ol {
+    padding-left: calc(16px + 1ex);
+}
+
+li {
+    margin-bottom: 0.5em;
+    list-style: none;
+    line-height: 1.2;
+}
+
+li::before {
+    margin-left: calc(-16px - 1ex);
+    margin-right: 1ex;
+    width: 16px;
+    height: 16px;
+    vertical-align: top;
+    margin-top: calc(1.2em - 16px);
+}
+
+li[data-status='enqueued']::before {
+    content: url('More.svg');
+}
+
+li[data-status='loading']::before {
+    content: url('tab-loading.png');
+}
+
+li[data-status='complete']::before {
+    content: url('Check.svg');
+}
+
+li[data-status='error']::before {
+    content: url('Warning.svg');
+}

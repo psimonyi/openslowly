@@ -1,0 +1,9 @@
+{
+    "menuLabel": {"message": "Open All Slowly"},
+    "errorOpen@": {
+        "message": "Sorry, OBS couldn't open this tab. ($errorMessage$)",
+        "placeholders": {"errorMessage": {"content": "$1"}}
+    },
+    "errorLoad": {"message": "Loading this bookmark failed."},
+    "empty": {"message": "JSON is dumb"}
+}
