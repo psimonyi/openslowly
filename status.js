@@ -4,7 +4,8 @@
 
 import prefs from '/prefs.js';
 
-let getMessage = browser.i18n.getMessage;
+const noop = () => {};
+const getMessage = browser.i18n.getMessage;
 
 browser.runtime.onMessage.addListener(function listener(message, sender) {
     browser.runtime.onMessage.removeListener(listener);
@@ -59,6 +60,15 @@ async function openAll(bookmarks) {
         }
         console.log("Opened tab", tab, bookmark.url);
     }
+    showResult();
+}
+
+async function showResult() {
+    // Promise.all settles on the first rejection.  We want to wait for all
+    // promises to settle, so wrap them all with a catch.
+    await Promise.all(Array.from(pending.values(), p => p.catch(noop)));
+    document.getElementById('status-heading').textContent =
+        getMessage('headingDone');
 }
 
 // tabId -> Flag (which is a promise)
@@ -66,7 +76,7 @@ let pending = new Map();
 
 async function nextReady() {
     // This resolves even if the race winner rejected.
-    await Promise.race(pending.values()).catch(() => {});
+    await Promise.race(pending.values()).catch(noop);
 }
 
 browser.webNavigation.onErrorOccurred.addListener(handleNavigationResult);
