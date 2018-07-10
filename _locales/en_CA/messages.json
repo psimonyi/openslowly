@@ -4,7 +4,10 @@
         "message": "Sorry, OBS couldn't open this tab. ($errorMessage$)",
         "placeholders": {"errorMessage": {"content": "$1"}}
     },
-    "errorLoad": {"message": "Loading this bookmark failed."},
+    "errorLoad": {
+        "message": "Loading this bookmark failed. ($errorMessage$)",
+        "placeholders": {"errorMessage": {"content": "$1"}}
+    },
     "headingDone": {"message": "Opened bookmarks"},
     "empty": {"message": "JSON is dumb"}
 }

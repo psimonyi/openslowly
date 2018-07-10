@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import prefs from '/prefs.js';
+import {nsresult_to_code} from '/nsresult.js';
 
 const noop = () => {};
 const getMessage = browser.i18n.getMessage;
@@ -54,7 +55,7 @@ async function openAll(bookmarks) {
             });
             pending.set(tab.id, flag);
             flag.then(() => li.dataset.status = 'complete')
-                .catch(() => showError(li, getMessage('errorLoad')));
+                .catch((code) => showError(li, getMessage('errorLoad', code)));
         } catch (e) {
             showError(li, getMessage('errorOpen@', e.message));
         }
@@ -90,7 +91,8 @@ function handleNavigationResult(details) {
 
     pending.delete(details.tabId);
     if (details.error) {
-        promise.reject(details.error);
+        let nsresult = /^Error code ([0-9]+)$/.exec(details.error)[1];
+        promise.reject(nsresult_to_code[nsresult]);
     } else {
         promise.resolve();
     }
