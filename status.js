@@ -80,12 +80,21 @@ async function nextReady() {
 
 browser.webNavigation.onErrorOccurred.addListener(handleNavigationResult);
 browser.webNavigation.onCompleted.addListener(handleNavigationResult);
-function handleNavigationResult(details) {
+async function handleNavigationResult(details) {
     // We only care about the result of the main tab, not subframes.
     if (details.frameId !== 0) return;
 
     let promise = pending.get(details.tabId);
     if (!promise) return; // This isn't about one of our tabs.
+
+    if (details.error) {
+        // The error might be a JS reload/redirect.  Wait a bit and see if the
+        // tab loads something else.  If something else is loading, we should
+        // wait for it too; it will trigger this again when it finishes.
+        await new Promise(resolve => setTimeout(resolve, 100));
+        let tab = await browser.tabs.get(details.tabId).catch(() => null);
+        if (tab && tab.status === 'loading') return;
+    }
 
     pending.delete(details.tabId);
     if (details.error) {
