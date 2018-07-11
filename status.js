@@ -44,10 +44,9 @@ async function openAll(bookmarks) {
         li.dataset.status = 'loading';
 
         let thisTab = await browser.tabs.getCurrent();
-        let tab;
         try {
             let flag = newFlag();
-            tab = await browser.tabs.create({
+            let tab = await browser.tabs.create({
                 url: bookmark.url,
                 active: false,
                 index: thisTab.index,
@@ -59,7 +58,6 @@ async function openAll(bookmarks) {
         } catch (e) {
             showError(li, getMessage('errorOpen@', e.message));
         }
-        console.log("Opened tab", tab, bookmark.url);
     }
     showResult();
 }
