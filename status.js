@@ -105,6 +105,13 @@ async function handleNavigationResult(details) {
     }
 }
 
+browser.tabs.onRemoved.addListener(tabId => {
+    let promise = pending.get(tabId);
+    if (!promise) return; // This isn't about one of our tabs.
+    pending.delete(tabId);
+    promise.reject("Tab closed");
+});
+
 function newFlag() {
     let _resolve, _reject;
     let flag = new Promise((resolve, reject) => {
