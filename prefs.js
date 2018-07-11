@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const DEFAULT_PREFS = {
-    inflight_max: 2,
+    inflight_max: 6,
 };
 
 let prefs = Object.assign({}, DEFAULT_PREFS);
