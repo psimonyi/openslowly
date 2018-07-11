@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elem.value = prefs.inflight_max;
     elem.addEventListener('change', () => {
         if (/^[0-9]+$/.test(elem.value)) {
-            let value = Number.parseInt(value);
+            let value = Number.parseInt(elem.value);
             browser.storage.sync.set({inflight_max: value});
         }
     });
