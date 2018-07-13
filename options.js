@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import prefs from '/prefs.js';
+import '/stepbox.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     let elem = document.getElementById('inflight-max');

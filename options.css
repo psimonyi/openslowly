@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 @import url('chrome://global/skin/in-content/common.css');
+@import url('stepbox.css');
 
 :root {
     -moz-user-select: none;
@@ -15,6 +16,6 @@
     line-height: 1.8;
 }
 
-.section-start:not(:first-child) {
-    margin-top: .9em;
+input[type='number'] {
+    width: 5ex;
 }

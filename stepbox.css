@@ -1,0 +1,32 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.stepbox {
+    display: inline-flex;
+    align-items: stretch;
+}
+
+.stepbox input {
+    flex: 1 1 auto;
+    margin: 0;
+    width: 5ex;
+}
+
+.stepbox button {
+    flex: 0 0 auto;
+    margin: 0;
+    min-width: auto;
+    /* --height is set by JS. */
+    width: calc(var(--height) - 1px);
+}
+
+.stepbox :not(:first-child) {
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.stepbox :not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
