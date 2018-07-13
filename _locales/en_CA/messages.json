@@ -8,6 +8,6 @@
         "message": "Loading this bookmark failed. ($errorMessage$)",
         "placeholders": {"errorMessage": {"content": "$1"}}
     },
-    "headingDone": {"message": "Opened bookmarks"},
+    "headingDone": {"message": "Complete"},
     "empty": {"message": "JSON is dumb"}
 }

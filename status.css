@@ -49,3 +49,32 @@ li[data-status='complete']::before {
 li[data-status='error']::before {
     content: url('Warning.svg');
 }
+
+#status {
+    max-width: 30em;
+    border-radius: 1em;
+    border: 1px solid var(--in-content-border-color);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+}
+
+#status h2 {
+    margin: 0;
+    font-weight: normal;
+    line-height: 1.4;
+}
+
+#status.success h2::before {
+    content: url('Check.svg');
+    margin-right: 1ex;
+    height: 1em;
+    vertical-align: top;
+    /* (line-height - height) / 2 */
+    margin-top: calc((1.4em - 1em) / 2);
+}
+
+#status progress {
+    width: 100%;
+    height: 8px;
+}

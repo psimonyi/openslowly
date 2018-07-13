@@ -24,6 +24,9 @@ function showList(bookmarks) {
         li.dataset.id = bookmark.id;
         ol.appendChild(li);
     }
+    let progress = document.getElementById('progress');
+    progress.max = bookmarks.length;
+    progress.value = 0;
 }
 
 function showError(li, message) {
@@ -32,6 +35,14 @@ function showError(li, message) {
     div.className = 'error-message';
     li.appendChild(div);
     li.dataset.status = 'error';
+    let progress = document.getElementById('progress');
+    progress.value += 1;
+}
+
+function markDone(li) {
+    li.dataset.status = 'complete';
+    let progress = document.getElementById('progress');
+    progress.value += 1;
 }
 
 async function openAll(bookmarks) {
@@ -53,7 +64,7 @@ async function openAll(bookmarks) {
                 windowId: thisTab.windowId,
             });
             pending.set(tab.id, flag);
-            flag.then(() => li.dataset.status = 'complete')
+            flag.then(() => markDone(li))
                 .catch((code) => showError(li, getMessage('errorLoad', code)));
         } catch (e) {
             showError(li, getMessage('errorOpen@', e.message));
@@ -66,6 +77,8 @@ async function showResult() {
     // Promise.all settles on the first rejection.  We want to wait for all
     // promises to settle, so wrap them all with a catch.
     await Promise.all(Array.from(pending.values(), p => p.catch(noop)));
+    // TODO: should also indicate whether there were any errors.
+    document.getElementById('status').classList.add('success');
     document.getElementById('status-heading').textContent =
         getMessage('headingDone');
 }
