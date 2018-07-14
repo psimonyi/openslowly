@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             (nonnegative ? '' : '-?') +
             (integer ? '[0-9]+'
                      : '(?:[0-9]+[.]?[0-9]*|[.][0-9]+)');
+        input.addEventListener('change', checkValidity.bind(input));
         input.parentNode.replaceChild(wrapper, input);
         wrapper.appendChild(input);
         wrapper.appendChild(decr);
@@ -41,6 +42,31 @@ document.addEventListener('DOMContentLoaded', () => {
             getComputedStyle(decr).getPropertyValue('height'));
     }
 });
+
+function checkValidity() {
+    this.setCustomValidity(isSufferingStepMismatch.call(this) ?
+        "stepMismatch" : '');
+}
+
+function isSufferingStepMismatch() {
+    if (/^any$/i.test(this.step)) return false;
+    let step = parseFloat(this.step);
+    if (!this.hasAttribute('step')) step = 1;
+    if (!step || step <= 0) step = 1;
+
+    let value = parseFloat(this.value);
+    if (value === undefined) return false;
+
+    let step_base =
+           (this.hasAttribute('min')
+               && parseFloat(this.min))
+        || (this.hasAttribute('value')
+               && parseFloat(this.getAttribute('value')))
+        || 0;
+
+    if ((step_base - value) % step === 0) return false;
+    return true;
+}
 
 function stepUp(n) { return step.call(this, n, +1); }
 function stepDown(n) { return step.call(this, n, -1); }
