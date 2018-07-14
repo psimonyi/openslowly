@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elem.addEventListener('change', () => {
         if (/^[0-9]+$/.test(elem.value)) {
             let value = Number.parseInt(elem.value);
+            if (value < 1) value = 1;
             browser.storage.sync.set({inflight_max: value});
         }
     });
