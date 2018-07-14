@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let min = parseFloat(input.min);
         let max = parseFloat(input.max);
         let step = parseFloat(input.step);
+        if (!step || step <= 0) step = 1;
 
         // Properties of valid input:
         let integer = Number.isInteger(step);
@@ -82,12 +83,14 @@ function step(n, direction) {
 
     if (max !== undefined && min !== undefined && max < min) return;
 
-    /*
     let op = direction > 0 ? Math.ceil : Math.floor;
     let k = op((value - step_base) / step);
     value = step_base + k * step;
-    */
+    if (value === originalValue) {
+        value += n * step * direction;
+    }
 
+    /*
     // Note: step is always strictly greater than zero.
     let rem = (step_base - value) % step;
     if (rem !== 0) {
@@ -96,6 +99,7 @@ function step(n, direction) {
     } else {
         value += n * step * direction;
     }
+    */
 
     if (min !== undefined && value < min) value = min;
     if (max !== undefined && value > max) value = max;
