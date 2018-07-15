@@ -13,10 +13,37 @@
 
 const MENUID = 'menuitem';
 
+// Before Firefox 63, onShown didn't work for bookmarks.
+let menuShown = true;
 browser.menus.create({
     id: MENUID,
     title: browser.i18n.getMessage("menuLabel"),
-    contexts: ['bookmark'], // TODO only bookmark folders
+    contexts: ['bookmark'],
+});
+
+browser.menus.onShown.addListener(async function onShown(info) {
+    if (!info.contexts.includes('bookmark')) return;
+
+    onShown.currentShowing = 1 + (onShown.currentShowing || 0);
+    let thisShowing = onShown.currentShowing;
+
+    let bookmarks = await browser.bookmarks.get(info.bookmarkId);
+    let bookmark = bookmarks[0];
+    if (thisShowing != onShown.currentShowing) return;
+
+    if (bookmark.type === 'folder' && !menuShown) {
+        browser.menus.create({
+            id: MENUID,
+            title: browser.i18n.getMessage("menuLabel"),
+            contexts: ['bookmark'],
+        });
+        menuShown = true;
+        browser.menus.refresh();
+    } else if (bookmark.type !== 'folder' && menuShown) {
+        browser.menus.remove(MENUID);
+        menuShown = false;
+        browser.menus.refresh();
+    }
 });
 
 browser.menus.onClicked.addListener(async function (info) {
