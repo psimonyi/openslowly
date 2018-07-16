@@ -8,11 +8,10 @@ import {nsresult_to_code} from '/nsresult.js';
 const noop = () => {};
 const getMessage = browser.i18n.getMessage;
 
-browser.runtime.onMessage.addListener(function listener(message, sender) {
-    browser.runtime.onMessage.removeListener(listener);
-
-    showList(message.bookmarks);
-    openAll(message.bookmarks);
+document.addEventListener('DOMContentLoaded', async () => {
+    let bookmarks = await browser.runtime.sendMessage('ready');
+    showList(bookmarks);
+    openAll(bookmarks);
 });
 
 function showList(bookmarks) {

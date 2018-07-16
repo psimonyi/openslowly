@@ -50,11 +50,11 @@ browser.menus.onClicked.addListener(async function (info) {
     let bookmarks = await getBookmarks(info.bookmarkId);
     if (bookmarks.length === 0) return;
 
-    let tab = await browser.tabs.create({ url: '/status.html' });
-    browser.tabs.onUpdated.addListener(function listener() {
-        browser.tabs.onUpdated.removeListener(listener);
-        browser.tabs.sendMessage(tab.id, {bookmarks});
-    }, {tabId: tab.id, properties: ['status']});
+    browser.runtime.onMessage.addListener(function f(msg, sender, respond) {
+        browser.runtime.onMessage.removeListener(f);
+        respond(bookmarks);
+    });
+    browser.tabs.create({ url: '/status.html' });
 });
 
 async function getBookmarks(bookmarkId) {
