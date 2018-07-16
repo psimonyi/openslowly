@@ -1,0 +1,17 @@
+vim: linebreak
+
+The built-in "Open All in Tabs" on bookmark folders is pretty handy — but it opens bookmarks all at once; if you have very big folders to open, it can slow down Firefox and the pages might not load fully.
+
+This extension adds a context menu item "Open All Slowly" for bookmark folders.  The bookmarks are opened a few at a time, waiting for previously-loaded bookmarks to finish first, so that they all have a chance to load completely without slowing things down too much.  You can keep browsing in another window or do something else while bookmarks are loaded in the background.
+
+Note that "Open All Slowly" is only available in the bookmarks menu and the bookmarks toolbar, and not yet in the bookmarks sidebar or the Library (Show All Bookmarks) window.  This is a bug in Firefox.
+
+<b>Permissions:</b>
+<ul>
+<li><i>Read and modify bookmarks</i>: this extension won't modify your bookmarks, but it does need to read them to open them.</li>
+<li><i>Access browser activity during navigation</i> lets it detect some kinds of tab redirects and tell you when a tab failed to load.</li>
+<li>It will also add the "Open All Slowly" item to the context menu for bookmark folders.  (Before Firefox 63, this item will appear in the context menu for all bookmark items, but it still only works on folders.)
+</ul>
+
+<b>About your rights:</b>
+This extension is Free Software, made available under the terms of the <a href="https://www.mozilla.org/MPL/2.0/">Mozilla Public License, version 2.0</a>. You can download the source code from the <a href="https://github.com/psimonyi/openslowly">repository on GitHub</a>.
