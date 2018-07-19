@@ -10,7 +10,7 @@ Note that "Open All Slowly" is only available in the bookmarks menu and the book
 <ul>
 <li><i>Read and modify bookmarks</i>: this extension won't modify your bookmarks, but it does need to read them to open them.</li>
 <li><i>Access browser activity during navigation</i> lets it detect some kinds of tab redirects and tell you when a tab failed to load.</li>
-<li>It will also add the "Open All Slowly" item to the context menu for bookmark folders.  (Before Firefox 63, this item will appear in the context menu for all bookmark items, but it still only works on folders.)
+<li>It will also add the "Open All Slowly" item to the context menu for bookmark folders.  (Before Firefox 62, this item will appear in the context menu for all bookmark items, but it still only works on folders.)
 </ul>
 
 <b>About your rights:</b>
