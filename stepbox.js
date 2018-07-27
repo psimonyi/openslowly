@@ -133,6 +133,8 @@ function step(n, direction) {
     if (direction === +1 && value < originalValue) return;
 
     this.value = value;
+    this.dispatchEvent(new Event('input', {bubbles: true}));
+    this.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
 // I am pretty sure that the HTML5 "rules for parsing floating-point number
