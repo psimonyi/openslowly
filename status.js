@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import prefs from '/prefs.js';
+import {prefsReady} from '/prefs.js';
 import {nsresult_to_code} from '/nsresult.js';
 
 const noop = () => {};
@@ -45,6 +45,7 @@ function markDone(li) {
 }
 
 async function openAll(bookmarks) {
+    let prefs = await prefsReady;
     for (let bookmark of bookmarks) {
         if (pending.size >= prefs.inflight_max) {
             await nextReady();
