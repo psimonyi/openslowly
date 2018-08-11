@@ -7,6 +7,8 @@
  * that is a live-updating view of the current prefs.  (Do not modify it.)
  */
 
+export let _addons_linter_workaround = 1;
+
 const DEFAULT_PREFS = {
     inflight_max: 6,
 };

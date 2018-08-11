@@ -4,8 +4,6 @@
 
 // This is just a transformation of info in Firefox's ErrorList.h
 
-'use strict';
-
 export let nsresult_to_code = {
     0x0: 'NS_OK',
     0xC1F30000: 'NS_ERROR_BASE',
