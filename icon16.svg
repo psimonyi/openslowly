@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   id="svg1"
+   version="1.1"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="icon16.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="375"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     gridtolerance="10"
+     objecttolerance="10"
+     guidetolerance="10"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-page="true">
+    <inkscape:grid
+       empspacing="4"
+       type="xygrid"
+       id="grid41" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <cc:license
+           rdf:resource="https://www.mozilla.org/en-US/MPL/2.0/" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-975)">
+    <path
+       inkscape:connector-curvature="0"
+       id="path884"
+       d="m 8,975 c -1.104569,0 -2,0.89543 -2,2 h 0.5 c 0,-0.83435 0.665651,-1.5 1.5,-1.5 h 8 v -0.5 z"
+       style="fill:#000000;fill-opacity:1;stroke-width:0.9375"
+       sodipodi:nodetypes="ssssccs" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke-width:0.9375"
+       d="M 4 4 A 2 2 0 0 0 2 6 L 2 12 L 1 12 A 1 1 0 0 0 1 14 L 15 14 A 1 1 0 0 0 15 12 L 14 12 L 14 6 A 2 2 0 0 0 12 4 L 4 4 z M 8.0234375 4.75 A 0.6935774 0.6935774 0 0 1 8.5976562 5.0878906 L 9.6132812 7.1464844 L 11.888672 7.4785156 A 0.66832946 0.66832946 0 0 1 12.425781 7.9296875 A 0.66313132 0.66313132 0 0 1 12.257812 8.6113281 L 10.609375 10.210938 L 10.996094 12.472656 A 0.66313132 0.66313132 0 0 1 10.732422 13.123047 A 0.66832946 0.66832946 0 0 1 10.341797 13.25 A 0.65941838 0.65941838 0 0 1 10.033203 13.175781 L 8 12.107422 L 5.9667969 13.171875 A 0.66387394 0.66387394 0 0 1 5.0019531 12.472656 L 5.390625 10.212891 L 3.7441406 8.6113281 A 0.66313132 0.66313132 0 0 1 4.1132812 7.4785156 L 6.3867188 7.1464844 L 7.4042969 5.0878906 A 0.6935774 0.6935774 0 0 1 8.0234375 4.75 z M 8 6.8828125 L 7.2714844 8.3613281 L 5.6367188 8.5976562 L 6.8183594 9.75 L 6.5390625 11.375 L 8 10.607422 L 9.4628906 11.375 L 9.1835938 9.75 L 10.363281 8.5976562 L 8.7285156 8.3613281 L 8 6.8828125 z "
+       transform="translate(0,975)"
+       id="path31" />
+    <path
+       sodipodi:nodetypes="ssssscss"
+       inkscape:connector-curvature="0"
+       id="path893"
+       d="m 6,977 c -1.104569,0 -2,0.89543 -2,2 h 0.5 c 0,-0.83435 0.665651,-1.5 1.5,-1.5 h 8 c 0.834349,0 2,0.39062 2,1.5 0,-1.10457 -0.895431,-2 -2,-2 z"
+       style="fill:#000000;fill-opacity:1;stroke-width:0.9375" />
+  </g>
+</svg>

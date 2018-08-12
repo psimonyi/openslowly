@@ -11,6 +11,7 @@ files := manifest.json background.js \
     status.css status.html status.js \
     stepbox.css stepbox.js \
     Check.svg More.svg Warning.svg tab-loading.png \
+    icon.svg icon16.svg \
     _locales
 
 openslowly.xpi: $(files)
