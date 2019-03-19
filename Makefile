@@ -5,7 +5,7 @@
 .PHONY: default
 default: openslowly.xpi
 
-files := manifest.json background.js \
+files := manifest.json background.html background.js \
     nsresult.js \
     options.css options.html options.js prefs.js \
     status.css status.html status.js \

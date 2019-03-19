@@ -9,7 +9,7 @@
     "author": "Peter Simonyi",
 
     "background": {
-        "scripts": ["background.js"]
+        "page": "background.html"
     },
     
     "default_locale": "en_CA",
