@@ -9,5 +9,7 @@
         "placeholders": {"errorMessage": {"content": "$1"}}
     },
     "headingDone": {"message": "Complete"},
+    "buttonPause": {"message": "Stop"},
+    "buttonResume": {"message": "Resume"},
     "empty": {"message": "JSON is dumb"}
 }

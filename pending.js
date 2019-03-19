@@ -51,11 +51,16 @@ export let pending = {
         flag[success ? 'resolve' : 'reject'](result);
         this.port.postMessage('release slot');
     },
+
+    // Relinquish a slot granted by may_load().
+    relinquish_slot() {
+        this.port.postMessage('release slot');
+    },
 };
 
 // A Flag is a Promise that exposes its resolve and reject functions as
 // methods.
-function Flag() {
+export function Flag() {
     let _resolve, _reject;
     let flag = new Promise((resolve, reject) => {
         _resolve = resolve;

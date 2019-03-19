@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import {pending} from '/pending.js';
+import {pending, Flag} from '/pending.js';
 import {nsresult_to_code} from '/nsresult.js';
 
 const getMessage = browser.i18n.getMessage;
@@ -11,6 +11,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     let bookmarks = await browser.runtime.sendMessage('ready');
     showList(bookmarks);
     openAll(bookmarks);
+});
+
+document.getElementById('pause').addEventListener('click', function () {
+    if (this.promise) {
+        this.promise.resolve();
+        delete this.promise;
+        this.textContent = getMessage('buttonPause');
+    } else {
+        this.promise = new Flag();
+        this.textContent = getMessage('buttonResume');
+    }
 });
 
 function showList(bookmarks) {
@@ -44,8 +55,17 @@ function markDone(li) {
 }
 
 async function openAll(bookmarks) {
+    let pause = document.getElementById('pause');
     for (let bookmark of bookmarks) {
-        await pending.may_load();
+        while (true) {
+            await pending.may_load();
+            if (pause.promise) {
+                pending.relinquish_slot();
+                await pause.promise;
+            } else {
+                break;
+            }
+        }
 
         let li = document.querySelector(`li[data-id="${bookmark.id}"]`);
         li.dataset.status = 'loading';
@@ -69,6 +89,7 @@ async function openAll(bookmarks) {
 }
 
 async function showResult() {
+    document.getElementById('pause').classList.add('finished');
     await pending.wait_all();
     // TODO: should also indicate whether there were any errors.
     document.getElementById('status').classList.add('success');

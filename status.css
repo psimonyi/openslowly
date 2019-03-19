@@ -51,6 +51,7 @@ li[data-status='error']::before {
 }
 
 #status {
+    display: grid;
     max-width: 30em;
     border-radius: 1em;
     border: 1px solid var(--in-content-border-color);
@@ -74,7 +75,25 @@ li[data-status='error']::before {
     margin-top: calc((1.4em - 1em) / 2);
 }
 
+#pause {
+    grid-column: 2;
+    justify-self: end;
+    margin-left: 1em;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#pause.finished {
+    opacity: 0;
+    transition: opacity linear 1s;
+}
+
+#status.success #pause {
+    display: none;
+}
+
 #status progress {
+    grid-column: 1 / span 2;
     display: block;
     width: 100%;
     height: 0.5em;
