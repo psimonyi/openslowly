@@ -45,8 +45,41 @@ browser.menus.onClicked.addListener(async function (info) {
         browser.runtime.onMessage.removeListener(f);
         respond(bookmarks);
     });
-    browser.tabs.create({ url: '/status.html' });
+
+    let tab = await getReusableTab();
+    if (tab) {
+        browser.tabs.update(tab.id, { url: '/status.html' });
+    } else {
+        browser.tabs.create({ url: '/status.html' });
+    }
 });
+
+// Returns the Tab object for the current tab if it is suitable to reuse for
+// opening a new page; otherwise returns undefined.  The tab is suitable if
+// it's a fresh blank tab that's the last in its window.
+async function getReusableTab() {
+    const BLANK_URLS = ['about:blank', 'about:home', 'about:newtab'];
+
+    let queryResult = await browser.tabs.query({
+        currentWindow: true,
+        active: true,
+    });
+    if (queryResult.length != 1) return;
+    let currentTab = queryResult[0];
+
+    if (currentTab.status != 'complete') return;
+    if (currentTab.pinned) return;
+    if (!BLANK_URLS.includes(currentTab.url)) return;
+
+    // Make sure this is the last tab in its window.
+    queryResult = await browser.tabs.query({
+        windowId: currentTab.windowId,
+        index: currentTab.index + 1,
+    });
+    if (queryResult.length != 0) return;
+
+    return currentTab;
+}
 
 async function getBookmarks(bookmarkId) {
     let bookmarks = await browser.bookmarks.getChildren(bookmarkId);
