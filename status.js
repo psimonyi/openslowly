@@ -2,10 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import {prefsReady} from '/prefs.js';
+import {pending} from '/pending.js';
 import {nsresult_to_code} from '/nsresult.js';
 
-const noop = () => {};
 const getMessage = browser.i18n.getMessage;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -45,25 +44,21 @@ function markDone(li) {
 }
 
 async function openAll(bookmarks) {
-    let prefs = await prefsReady;
     for (let bookmark of bookmarks) {
-        if (pending.size >= prefs.inflight_max) {
-            await nextReady();
-        }
+        await pending.may_load();
 
         let li = document.querySelector(`li[data-id="${bookmark.id}"]`);
         li.dataset.status = 'loading';
 
         let thisTab = await browser.tabs.getCurrent();
         try {
-            let flag = newFlag();
             let tab = await browser.tabs.create({
                 url: bookmark.url,
                 active: false,
                 index: thisTab.index,
                 windowId: thisTab.windowId,
             });
-            pending.set(tab.id, flag);
+            let flag = pending.add(tab.id);
             flag.then(() => markDone(li))
                 .catch((code) => showError(li, getMessage('errorLoad', code)));
         } catch (e) {
@@ -74,21 +69,11 @@ async function openAll(bookmarks) {
 }
 
 async function showResult() {
-    // Promise.all settles on the first rejection.  We want to wait for all
-    // promises to settle, so wrap them all with a catch.
-    await Promise.all(Array.from(pending.values(), p => p.catch(noop)));
+    await pending.wait_all();
     // TODO: should also indicate whether there were any errors.
     document.getElementById('status').classList.add('success');
     document.getElementById('status-heading').textContent =
         getMessage('headingDone');
-}
-
-// tabId -> Flag (which is a promise)
-let pending = new Map();
-
-async function nextReady() {
-    // This resolves even if the race winner rejected.
-    await Promise.race(pending.values()).catch(noop);
 }
 
 browser.webNavigation.onErrorOccurred.addListener(handleNavigationResult);
@@ -97,8 +82,8 @@ async function handleNavigationResult(details) {
     // We only care about the result of the main tab, not subframes.
     if (details.frameId !== 0) return;
 
-    let promise = pending.get(details.tabId);
-    if (!promise) return; // This isn't about one of our tabs.
+    // We only care if it's a tab we're waiting on.
+    if (!pending.has(details.tabId)) return;
 
     if (details.error) {
         // The error might be a JS reload/redirect.  Wait a bit and see if the
@@ -109,29 +94,16 @@ async function handleNavigationResult(details) {
         if (tab && tab.status === 'loading') return;
     }
 
-    pending.delete(details.tabId);
     if (details.error) {
         let nsresult = /^Error code ([0-9]+)$/.exec(details.error)[1];
-        promise.reject(nsresult_to_code[nsresult]);
+        pending.finished(details.tabId, false, nsresult_to_code[nsresult]);
     } else {
-        promise.resolve();
+        pending.finished(details.tabId, true);
     }
 }
 
 browser.tabs.onRemoved.addListener(tabId => {
-    let promise = pending.get(tabId);
-    if (!promise) return; // This isn't about one of our tabs.
-    pending.delete(tabId);
-    promise.reject("Tab closed");
+    if (pending.has(tabId)) {
+        pending.finished(tabId, false, "Tab closed");
+    }
 });
-
-function newFlag() {
-    let _resolve, _reject;
-    let flag = new Promise((resolve, reject) => {
-        _resolve = resolve;
-        _reject = reject;
-    });
-    flag.resolve = _resolve;
-    flag.reject = _reject;
-    return flag;
-}

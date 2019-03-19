@@ -6,7 +6,7 @@
 default: openslowly.xpi
 
 files := manifest.json background.html background.js \
-    nsresult.js \
+    nsresult.js pending.js \
     options.css options.html options.js prefs.js \
     status.css status.html status.js \
     stepbox.css stepbox.js \

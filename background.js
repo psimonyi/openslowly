@@ -53,3 +53,51 @@ async function getBookmarks(bookmarkId) {
     return bookmarks.filter(bookmark =>
         bookmark.type === 'bookmark' && bookmark.url);
 }
+
+/* There may be multiple sets of bookmarks being opened slowly, but we should
+ * maintain the limit on how many can load at once across all sessions.  This
+ * part of the background script keeps track of how many slots for loading a
+ * tab are available or in use and allocates them to sessions.
+ */
+
+import {prefsReady} from '/prefs.js';
+
+let total_slots_in_use = 0;
+let queue = [];
+async function advance_queue() {
+    let prefs = await prefsReady;
+    while (total_slots_in_use < prefs.inflight_max && queue.length) {
+        let port = queue.shift();
+        port.slots_in_use += 1;
+        total_slots_in_use += 1;
+        port.postMessage('slot assigned');
+    }
+}
+
+browser.runtime.onConnect.addListener(port => {
+    port.slots_in_use = 0;
+
+    port.onDisconnect.addListener(port => {
+        if (port.error) {
+            console.error("Port error", port.error);
+        }
+        total_slots_in_use -= port.slots_in_use;
+        let index = queue.indexOf(port);
+        if (index != -1) {
+            queue.splice(index, 1);
+        }
+        advance_queue();
+    });
+    port.onMessage.addListener(message => {
+        if (message == 'request slot') {
+            queue.push(port);
+            advance_queue();
+        } else if (message == 'release slot') {
+            port.slots_in_use -= 1;
+            total_slots_in_use -= 1;
+            advance_queue();
+        } else {
+            console.error("Unrecognized message", message);
+        }
+    });
+});
