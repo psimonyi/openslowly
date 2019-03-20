@@ -11,5 +11,9 @@
     "headingDone": {"message": "Complete"},
     "buttonPause": {"message": "Stop"},
     "buttonResume": {"message": "Resume"},
+    "notificationTitle": {"message": "Loading bookmarks complete"},
+    "notificationBody": {
+        "message": "Open Bookmarks Slowly finished opening some bookmarks."
+    },
     "empty": {"message": "JSON is dumb"}
 }

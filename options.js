@@ -6,16 +6,31 @@ import {prefsReady} from '/prefs.js';
 import '/stepbox.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    let elem = document.getElementById('inflight-max');
+    let max = document.getElementById('inflight-max');
+    let notify = document.getElementById('notify');
+
     prefsReady.then(prefs => {
-        elem.value = prefs.inflight_max
+        max.value = prefs.inflight_max;
+        notify.checked = prefs.notify;
     });
 
-    elem.addEventListener('change', () => {
-        if (/^[0-9]+$/.test(elem.value)) {
-            let value = Number.parseInt(elem.value);
+    max.addEventListener('change', () => {
+        if (/^[0-9]+$/.test(max.value)) {
+            let value = Number.parseInt(max.value);
             if (value < 1) value = 1;
             browser.storage.sync.set({inflight_max: value});
         }
+    });
+
+    notify.addEventListener('change', async () => {
+        if (notify.checked) {
+            let havePermission = await browser.permissions.request({
+                permissions: ['notifications']
+            });
+            if (!havePermission) {
+                notify.checked = false;
+            }
+        }
+        browser.storage.sync.set({notify: notify.checked});
     });
 });

@@ -32,6 +32,10 @@
         "page": "options.html"
     },
 
+    "optional_permissions": [
+        "notifications"
+    ],
+
     "permissions": [
         "bookmarks",
         "menus",

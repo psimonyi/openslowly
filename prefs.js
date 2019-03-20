@@ -9,6 +9,7 @@
 
 const DEFAULT_PREFS = {
     inflight_max: 6,
+    notify: false,
 };
 
 let _prefs = Object.assign({}, DEFAULT_PREFS);

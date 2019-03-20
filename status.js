@@ -4,6 +4,7 @@
 
 import {pending, Flag} from '/pending.js';
 import {nsresult_to_code} from '/nsresult.js';
+import {prefsReady} from '/prefs.js';
 
 const getMessage = browser.i18n.getMessage;
 
@@ -95,6 +96,29 @@ async function showResult() {
     document.getElementById('status').classList.add('success');
     document.getElementById('status-heading').textContent =
         getMessage('headingDone');
+
+    // Show an alert, but only if the preference is set and the status page is
+    // not the current focus.
+
+    let prefs = await prefsReady;
+    if (!prefs.notify) return;
+
+    let win = await browser.windows.getCurrent();
+    let tab = await browser.tabs.getCurrent();
+    if (win.focused && tab.active) return;
+
+    // We don't know how the icon will be used by the notification system.
+    // GNOME resizes anything to 16x16, and shows it on a dark background.
+    // Hopefully the regular icon will be good enough on other systems.
+    let platform = await browser.runtime.getPlatformInfo();
+    browser.notifications.create({
+        type: 'basic',
+        title: getMessage('notificationTitle'),
+        message: getMessage('notificationBody'),
+        iconUrl: (platform.os == 'linux'
+            ? '/icon-notify-gnome.svg'
+            : '/icon.svg'),
+    });
 }
 
 browser.webNavigation.onErrorOccurred.addListener(handleNavigationResult);
