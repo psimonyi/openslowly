@@ -120,11 +120,17 @@ async function showResult() {
             : '/icon.svg'),
     });
 
-    browser.notifications.onClicked.addListener(function f(thisId) {
+    function handleClick(thisId) {
         if (notificationId == thisId) {
             browser.tabs.update(tab.id, { active: true });
             browser.windows.update(win.id, { focused: true });
         }
+    }
+
+    browser.notifications.onClicked.addListener(handleClick);
+    browser.notifications.onClosed.addListener(function f() {
+        browser.notifications.onClicked.removeListener(handleClick);
+        browser.notifications.onClosed.removeListener(f);
     });
 }
 
