@@ -111,13 +111,20 @@ async function showResult() {
     // GNOME resizes anything to 16x16, and shows it on a dark background.
     // Hopefully the regular icon will be good enough on other systems.
     let platform = await browser.runtime.getPlatformInfo();
-    browser.notifications.create({
+    let notificationId = await browser.notifications.create({
         type: 'basic',
         title: getMessage('notificationTitle'),
         message: getMessage('notificationBody'),
         iconUrl: (platform.os == 'linux'
             ? '/icon-notify-gnome.svg'
             : '/icon.svg'),
+    });
+
+    browser.notifications.onClicked.addListener(function f(thisId) {
+        if (notificationId == thisId) {
+            browser.tabs.update(tab.id, { active: true });
+            browser.windows.update(win.id, { focused: true });
+        }
     });
 }
 
