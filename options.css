@@ -5,14 +5,22 @@
 @import url('chrome://global/skin/in-content/common.css');
 @import url('stepbox.css');
 
+/* Try to match the rest of the addon detail page; see
+ * chrome://mozapps/skin/extensions/extensions.css */
+
 :root {
     -moz-user-select: none;
+    background: var(--in-content-box-background);
 }
 
 :root > * {
-    /* Try to match the font on the rest of the addon page */
-    font-size: 1.25rem;
-    color: #333;
+    font-size: 1.11rem;
+    color: var(--in-content-page-color);
+}
+
+/* End matching Firefox styles */
+
+body {
     line-height: 1.8;
 }
 
