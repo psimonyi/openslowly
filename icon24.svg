@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   id="svg1"
+   version="1.1"
+   inkscape:version="0.92.4 (unknown)"
+   sodipodi:docname="icon24.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:document-units="px"
+     units="px"
+     showgrid="true"
+     gridtolerance="10"
+     objecttolerance="10"
+     guidetolerance="10"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-page="true"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       empspacing="4"
+       type="xygrid"
+       id="grid41" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="https://www.mozilla.org/en-US/MPL/2.0/" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="fill:#000000">
+    <path
+       d="m 6,7 a 3,3 0 0 0 -3,3 v 9 h -1.5 a 1.5,1.5 0 0 0 0,3 h 21 a 1.5,1.5 0 0 0 0,-3 h -1.5 v -9 a 3,3 0 0 0 -3,-3 z m 6.033203,1.0009751 a 0.979168,0.979168 0 0 1 0.808594,0.47754 l 1.435547,2.9052749 3.210937,0.466795 a 0.94352385,0.94352385 0 0 1 0.75879,0.638675 0.9361853,0.9361853 0 0 1 -0.237305,0.96191 l -2.327149,2.257815 0.546875,3.194335 a 0.9361853,0.9361853 0 0 1 -0.37207,0.916015 0.94352385,0.94352385 0 0 1 -0.551758,0.180665 0.9309435,0.9309435 0 0 1 -0.435547,-0.10547 l -2.873046,-1.50781 -2.868165,1.503905 a 0.9372337,0.9372337 0 0 1 -1.362304,-0.987305 l 0.547851,-3.191405 -2.324218,-2.260745 a 0.9361853,0.9361853 0 0 1 0.521484,-1.600585 l 3.210937,-0.466795 1.435547,-2.9052749 a 0.979168,0.979168 0 0 1 0.875,-0.47754 z m -0.03613,3.0097649 -1.02832,2.087895 -2.306641,0.33398 1.668945,1.625 -0.393555,2.294925 2.059571,-1.08301 2.06543,1.08301 -0.393555,-2.294925 1.665039,-1.625 -2.305664,-0.33398 z"
+       id="path31-3"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 9,4 c -1.656854,0 -3,1.343146 -3,3 h 1 c 0,-1.1045693 0.8359152,-2 2,-2 4.055339,0 12.166016,0 12.166016,0 1.564806,0 2.833984,0.8954307 2.833984,2 0,-1.656854 -1.343146,-3 -3,-3 z"
+       id="path835"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sccsscss" />
+    <path
+       d="m 12,1 c -1.656854,0 -3,1.343146 -3,3 h 1 c 0,-1.1045693 0.835915,-2 2,-2 4,0 12,0 12,0 v -1 z"
+       id="path845"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sccsccs" />
+  </g>
+</svg>

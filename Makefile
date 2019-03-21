@@ -11,7 +11,7 @@ files := manifest.json background.html background.js \
     status.css status.html status.js \
     stepbox.css stepbox.js \
     Check.svg More.svg Warning.svg tab-loading.png \
-    icon.svg icon16.svg icon-notify-gnome.svg \
+    icon.svg icon24.svg icon16.svg icon-notify-gnome.svg \
     _locales
 
 icon-notify-gnome.svg: icon16.svg

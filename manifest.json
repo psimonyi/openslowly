@@ -20,6 +20,7 @@
 
     "icons": {
         "16": "icon16.svg",
+        "24": "icon24.svg",
         "64": "icon.svg"
     },
 
