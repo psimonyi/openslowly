@@ -41,3 +41,46 @@ body {
 input[type='number'] {
     width: 5ex;
 }
+
+#tip:not(.expanded) .more {
+    display: none;
+}
+
+#tip.expanded #tip-show {
+    display: none;
+}
+
+/* Make a button look like a link. */
+button.action-link {
+    background: none;
+    border: none;
+    /* !important is required because in-content/common.css uses it */
+    color: var(--in-content-link-color) !important;
+    font-size: inherit;
+    padding: 4px;
+    margin-left: 1em;
+    margin-right: 0;
+    /* Negative margins compensate for padding, so the focusring is outset
+     * without taking up extra space. */
+    margin-top: -4px;
+    margin-bottom: -4px;
+    min-width: auto;
+    min-height: auto;
+}
+button.action-link:active,
+button.action-link:hover,
+button.action-link:enabled:hover:active {
+    background: none;
+}
+
+button.action-link:enabled:focus,
+button.action-link:enabled:hover {
+    background: none;
+    color: var(--in-content-link-color-hover) !important;
+    cursor: pointer;
+    text-decoration: underline;
+}
+button.action-link:enabled:hover:active {
+    color: var(--in-content-link-color-active) !important;
+    text-decoration: none;
+}

@@ -5,6 +5,8 @@
 import {prefsReady} from '/prefs.js';
 import '/stepbox.js';
 
+const getMessage = browser.i18n.getMessage;
+
 document.addEventListener('DOMContentLoaded', () => {
     let max = document.getElementById('inflight-max');
     let notify = document.getElementById('notify');
@@ -33,4 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         browser.storage.sync.set({notify: notify.checked});
     });
+
+    document.getElementById('tip-show').addEventListener('click', () => {
+        document.getElementById('tip').classList.toggle('expanded')
+    });
+
+    setPlatformText();
 });
+
+async function setPlatformText() {
+    let {os} = await browser.runtime.getPlatformInfo();
+    let fxPrefs = getMessage(os == 'win' ? 'fxPrefsWin' : 'fxPrefs');
+    document.getElementById('fx-prefs').textContent = fxPrefs;
+}

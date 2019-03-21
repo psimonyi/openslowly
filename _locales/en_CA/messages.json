@@ -15,5 +15,7 @@
     "notificationBody": {
         "message": "Open Bookmarks Slowly finished opening some bookmarks."
     },
+    "fxPrefs": { "message": "Preferences" },
+    "fxPrefsWin": { "message": "Options" },
     "empty": {"message": "JSON is dumb"}
 }
