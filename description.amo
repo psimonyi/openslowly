@@ -9,7 +9,7 @@ This extension adds a context menu item “Open All Slowly” for bookmark folde
 <li><i>Read and modify bookmarks</i>: this extension won’t modify your bookmarks, but it does need to read them to open them.</li>
 <li><i>Access browser tabs</i> is only used to check whether the current tab is unused, so it can be reused for the progress page.</li>
 <li><i>Access browser activity during navigation</i> lets it detect some kinds of tab redirects and tell you when a tab failed to load.</li>
-<li>It will also add the “Open All Slowly” item to the context menu for bookmark folders.  (Before Firefox 62, this item will appear in the context menu for all bookmark items, but it still only works on folders.)</li>
+<li>The “Open All Slowly” item is added to the context menu for bookmark folders.</li>
 <li>If you enable the option to show a notification when loading is finished, <i>Display notifications to you</i> is requested.</li>
 </ul>
 
