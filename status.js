@@ -84,7 +84,7 @@ async function openAll(bookmarks) {
             });
             let flag = pending.add(tab.id);
             flag.then(() => markDone(li))
-                .catch((code) => showError(li, getMessage('errorLoad', code)));
+                .catch((message) => showError(li, message));
         } catch (e) {
             showError(li, getMessage('errorOpen@', e.message));
         }
@@ -156,8 +156,18 @@ async function handleNavigationResult(details) {
     }
 
     if (details.error) {
-        let nsresult = /^Error code ([0-9]+)$/.exec(details.error)[1];
-        pending.finished(details.tabId, false, nsresult_to_code[nsresult]);
+        let message = getMessage('errorLoad', details.error);
+        let match = /^Error code ([0-9]+)$/.exec(details.error);
+        if (match) {
+            let code = nsresult_to_code[match[1]];
+            if (code == 'NS_BINDING_ABORTED') {
+                message = getMessage('errorStopped');
+            } else if (code) {
+                message = getMessage('errorLoad', code);
+            }
+        }
+
+        pending.finished(details.tabId, false, message);
     } else {
         pending.finished(details.tabId, true);
     }
@@ -165,6 +175,6 @@ async function handleNavigationResult(details) {
 
 browser.tabs.onRemoved.addListener(tabId => {
     if (pending.has(tabId)) {
-        pending.finished(tabId, false, "Tab closed");
+        pending.finished(tabId, false, getMessage('errorTabClosed'));
     }
 });
