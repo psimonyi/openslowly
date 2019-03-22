@@ -79,6 +79,7 @@ li[data-status='error']::before {
     grid-column: 2;
     justify-self: end;
     margin-left: 1em;
+    margin-right: 0;
     margin-top: 0;
     margin-bottom: 0;
 }
