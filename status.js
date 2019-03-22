@@ -9,6 +9,9 @@ import {prefsReady} from '/prefs.js';
 const getMessage = browser.i18n.getMessage;
 
 document.addEventListener('DOMContentLoaded', async () => {
+    let {os} = await browser.runtime.getPlatformInfo();
+    document.documentElement.classList.add(`os-${os}`);
+
     let bookmarks = await browser.runtime.sendMessage('ready');
     showList(bookmarks);
     openAll(bookmarks);

@@ -92,15 +92,35 @@ li[data-status='error']::before {
     display: none;
 }
 
-#status progress {
-    grid-column: 1 / span 2;
+#progress {
     display: block;
     width: 100%;
-    height: 0.5em;
-    margin-top: 0.5em;
+    height: 100%;
+    box-sizing: border-box;
 }
 
-#status.success progress {
+/* On some platforms, the height of a progress bar can't be reduced to 0, so we
+ * have to wrap it in an overflow:hidden container to make the slide-closed
+ * animation work.
+ */
+#progress-container {
+    grid-column: 1 / span 2;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    /* To avoid weird rounding in the delay before the animation, height must
+     * compute to an integer in px; 0.6em @ font-size:15px = 9.0px */
+    height: 0.6em;
+    margin-top: 0.6em;
+}
+
+.os-win #progress-container {
+    /* On Windows 10, the minimum height at which the progress bar looks okay
+     * is 10px. 0.8em @ font-size:15px = 12px */
+    height: 0.8em;
+}
+
+#status.success #progress-container {
     height: 0;
     margin-top: 0;
     transition: height 0.5s ease-in 1s, margin-top 0.5s ease-out 1.5s;
