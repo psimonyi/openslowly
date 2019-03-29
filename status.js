@@ -28,6 +28,10 @@ document.getElementById('pause').addEventListener('click', function () {
     }
 });
 
+document.getElementById('prefs').addEventListener('click', () => {
+    browser.runtime.openOptionsPage();
+});
+
 function showList(bookmarks) {
     let ol = document.getElementById('bookmarks-list');
     for (let bookmark of bookmarks) {

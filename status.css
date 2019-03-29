@@ -50,6 +50,26 @@ li[data-status='error']::before {
     content: url('Warning.svg');
 }
 
+#heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+#prefs {
+    min-width: 0;
+    min-height: 0;
+    width: 32px;
+    height: 32px;
+    margin-right: 0;
+    padding: 0;
+}
+
+#prefs img {
+    display: block;
+    margin: auto;
+}
+
 #status {
     display: grid;
     max-width: 30em;
