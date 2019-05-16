@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let {os} = await browser.runtime.getPlatformInfo();
     document.documentElement.classList.add(`os-${os}`);
 
-    let bookmarks = await browser.runtime.sendMessage('ready');
-    showList(bookmarks);
-    openAll(bookmarks);
+    let {bookmarks, folderName} = await browser.runtime.sendMessage('ready');
+    showList(bookmarks, folderName);
+    openAll(bookmarks, folderName);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function showList(bookmarks) {
+function showList(bookmarks, folderName) {
     let ol = document.getElementById('bookmarks-list');
     for (let bookmark of bookmarks) {
         let li = document.createElement('li');
@@ -46,6 +46,8 @@ function showList(bookmarks) {
     let progress = document.getElementById('progress');
     progress.max = bookmarks.length;
     progress.value = 0;
+    let heading = document.getElementById('bookmarks-heading');
+    heading.textContent = folderName;
 }
 
 function showError(li, message) {
@@ -64,7 +66,7 @@ function markDone(li) {
     progress.value += 1;
 }
 
-async function openAll(bookmarks) {
+async function openAll(bookmarks, folderName) {
     let pause = document.getElementById('pause');
     for (let bookmark of bookmarks) {
         while (true) {
@@ -95,10 +97,10 @@ async function openAll(bookmarks) {
             showError(li, getMessage('errorOpen@', e.message));
         }
     }
-    showResult();
+    showResult(folderName);
 }
 
-async function showResult() {
+async function showResult(folderName) {
     document.getElementById('pause').classList.add('finished');
     await pending.wait_all();
     // TODO: should also indicate whether there were any errors.
@@ -123,7 +125,7 @@ async function showResult() {
     let notificationId = await browser.notifications.create({
         type: 'basic',
         title: getMessage('notificationTitle'),
-        message: getMessage('notificationBody'),
+        message: getMessage('notificationBody', folderName),
         iconUrl: (platform.os == 'linux'
             ? '/icon-notify-gnome.svg'
             : '/icon.svg'),

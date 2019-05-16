@@ -15,7 +15,8 @@
     "buttonResume": {"message": "Resume"},
     "notificationTitle": {"message": "Loading bookmarks complete"},
     "notificationBody": {
-        "message": "Open Bookmarks Slowly finished opening some bookmarks."
+        "message": "Open Bookmarks Slowly finished opening '$folderName$'.",
+        "placeholders": {"folderName": {"content": "$1"}}
     },
     "fxPrefs": { "message": "Preferences" },
     "fxPrefsWin": { "message": "Options" },

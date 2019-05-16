@@ -41,9 +41,12 @@ browser.menus.onClicked.addListener(async function (info) {
     let bookmarks = await getBookmarks(info.bookmarkId);
     if (bookmarks.length === 0) return;
 
+    let bookmarkFolder = (await browser.bookmarks.get([info.bookmarkId]))[0];
+    let folderName = bookmarkFolder.title;
+
     browser.runtime.onMessage.addListener(function f(msg, sender, respond) {
         browser.runtime.onMessage.removeListener(f);
-        respond(bookmarks);
+        respond({bookmarks, folderName});
     });
 
     let tab = await getReusableTab();
