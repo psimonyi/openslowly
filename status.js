@@ -17,19 +17,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     openAll(bookmarks);
 });
 
-document.getElementById('pause').addEventListener('click', function () {
-    if (this.promise) {
-        this.promise.resolve();
-        delete this.promise;
-        this.textContent = getMessage('buttonPause');
-    } else {
-        this.promise = new Flag();
-        this.textContent = getMessage('buttonResume');
-    }
-});
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('pause').addEventListener('click', function () {
+        if (this.promise) {
+            this.promise.resolve();
+            delete this.promise;
+            this.textContent = getMessage('buttonPause');
+        } else {
+            this.promise = new Flag();
+            this.textContent = getMessage('buttonResume');
+        }
+    });
 
-document.getElementById('prefs').addEventListener('click', () => {
-    browser.runtime.openOptionsPage();
+    document.getElementById('prefs').addEventListener('click', () => {
+        browser.runtime.openOptionsPage();
+    });
 });
 
 function showList(bookmarks) {
