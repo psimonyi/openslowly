@@ -56,6 +56,16 @@ export let pending = {
     relinquish_slot() {
         this.port.postMessage('release slot');
     },
+
+    // Get an Object on which metadata can be stored for a tab.
+    // It only exists while the tab is pending.
+    metadata(tabId) {
+        let flag = this.flags.get(tabId);
+        if (!flag.hasOwnProperty('metadata')) {
+            flag.metadata = {};
+        }
+        return flag.metadata;
+    },
 };
 
 // A Flag is a Promise that exposes its resolve and reject functions as

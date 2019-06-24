@@ -166,13 +166,23 @@ async function handleNavigationResult(details) {
     if (details.error) {
         let message = getMessage('errorLoad', details.error);
         let match = /^Error code ([0-9]+)$/.exec(details.error);
+        let stopped = false;
         if (match) {
             let code = nsresult_to_code[match[1]];
             if (code == 'NS_BINDING_ABORTED') {
                 message = getMessage('errorStopped');
+                stopped = true;
             } else if (code) {
                 message = getMessage('errorLoad', code);
             }
+        }
+
+        let metadata = pending.metadata(details.tabId);
+        if (!stopped && !metadata.retried) {
+            metadata.retried = true;
+            metadata.timestamp = Date.now();
+            browser.tabs.reload(details.tabId);
+            return;
         }
 
         pending.finished(details.tabId, false, message);
