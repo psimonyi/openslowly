@@ -100,6 +100,24 @@ async function openAll(bookmarks, folderName) {
     showResult(folderName);
 }
 
+pending.onAdd = function (metadata, tabId) {
+    metadata.timestamp = Date.now();
+    metadata.timeoutId = setTimeout(checkHungTab, hungTabTimeout(), tabId);
+    metadata.committed = false;
+}
+
+pending.onReload = function (metadata, tabId) {
+    metadata.retried = 1 + (metadata.retried || 0);
+    metadata.timestamp = Date.now();
+    clearTimeout(metadata.timeoutId);
+    metadata.timeoutId = setTimeout(checkHungTab, hungTabTimeout(), tabId);
+    metadata.committed = false;
+}
+
+pending.onFinished = function (metadata, tabId) {
+    clearTimeout(metadata.timeoutId);
+}
+
 async function showResult(folderName) {
     document.getElementById('pause').classList.add('finished');
     await pending.wait_all();
@@ -179,20 +197,104 @@ async function handleNavigationResult(details) {
 
         let metadata = pending.metadata(details.tabId);
         if (!stopped && !metadata.retried) {
-            metadata.retried = true;
-            metadata.timestamp = Date.now();
-            browser.tabs.reload(details.tabId);
+            reloadTab(tabId, metadata);
+            console.log("Retried!");
             return;
         }
 
         pending.finished(details.tabId, false, message);
     } else {
+        let metadata = pending.metadata(details.tabId);
+        let loadtime = details.timeStamp - metadata.timestamp;
+        timing.push(loadtime);
+        // TODO: Maybe only count a load if it's not too much of an outlier?
         pending.finished(details.tabId, true);
     }
 }
+
+function reloadTab(tabId, metadata) {
+    if (!metadata) metadata = pending.metadata(tabId);
+
+    if (metadata.committed) {
+        pending.onReload(metadata, tabId);
+        browser.tabs.reload(tabId);
+    } else {
+        // TODO tabs.reload() would "reload" about:blank, which is useless.
+    }
+}
+
+browser.webNavigation.onCommitted.addListener(function (details) {
+    if (details.frameId != 0) return;
+
+    // We'll only record this for tabs that we're waiting on.  `metadata`
+    // returns undefined for other tabs.
+    let metadata = pending.metadata(details.tabId);
+    if (!metadata) return;
+
+    metadata.committed = true;
+});
 
 browser.tabs.onRemoved.addListener(tabId => {
     if (pending.has(tabId)) {
         pending.finished(tabId, false, getMessage('errorTabClosed'));
     }
 });
+
+// Array of successful page load times (in ms).
+var timing = [];
+
+// Minimum number of successful loads in `timing` before we can use it to guess
+// how long a tab should take.
+const MIN_DATA_POINTS = 8;
+
+// Without a good guess, how long should we give a tab before checking in?
+const GUESS_DELAY = 5000; //ms
+
+// Number of standard deviations from the mean page load time before we want to
+// try reloading the tab.
+const OKAY_DEVIATIONS = 5;
+
+function checkHungTab(tabId) {
+    // If this is one of the first tabs, we don't have enough data to tell
+    // whether it's hung yet or not.  Come back later.
+    if (timing.length < MIN_DATA_POINTS) {
+        metadata.timeoutId = setTimeout(checkHungTab, GUESS_DELAY, tabId);
+        return;
+    }
+
+    // Even after MIN_DATA_POINTS, we might have a more accurate guess by now.
+    let delay = hungTabTimeout();
+    let metadata = pending.metadata(tabId);
+    let now = Date.now();
+    if (metadata.timestamp + delay > now) {
+        let new_delay = delay - (now - metadata.timestamp);
+        metadata.timeoutId = setTimeout(checkHungTab, new_delay, tabId);
+        return;
+    }
+
+    // Only try reloading once.
+    if (metadata.retried) {
+        return;
+    }
+
+    reloadTab(tabId);
+}
+
+// Return the delay to use before checking a tab for being hung.
+function hungTabTimeout() {
+    if (timing.length < MIN_DATA_POINTS) return GUESS_DELAY;
+    return tooLong();
+}
+
+// How long should we wait for a tab to load?  OKAY_DEVIATIONS standard
+// deviations longer than the mean successful load time so far for other tabs.
+// Not sure this is the best stat to use, since the data isn't really normal.
+function tooLong() {
+    function sum(ys) { return ys.reduce((accum, y) => accum + y) }
+    let xs = timing;
+    let n = xs.length;
+    let mean = sum(xs) / n;
+    let sq_diffs = xs.map(x => Math.pow(x - mean, 2));
+    let stdev = Math.sqrt(1 / (n-1) * sum(sq_diffs));
+    return mean + stdev * OKAY_DEVIATIONS;
+}

@@ -38,6 +38,7 @@ export let pending = {
     add(tabId) {
         let flag = new Flag();
         this.flags.set(tabId, flag);
+        this.onAdd && this.onAdd(flag.metadata, tabId);
         return flag;
     },
 
@@ -50,6 +51,7 @@ export let pending = {
         this.flags.delete(tabId);
         flag[success ? 'resolve' : 'reject'](result);
         this.port.postMessage('release slot');
+        this.onFinished && this.onFinished(flag.metadata, tabId);
     },
 
     // Relinquish a slot granted by may_load().
@@ -61,10 +63,7 @@ export let pending = {
     // It only exists while the tab is pending.
     metadata(tabId) {
         let flag = this.flags.get(tabId);
-        if (!flag.hasOwnProperty('metadata')) {
-            flag.metadata = {};
-        }
-        return flag.metadata;
+        return flag ? flag.metadata : undefined;
     },
 };
 
@@ -78,5 +77,6 @@ export function Flag() {
     });
     flag.resolve = _resolve;
     flag.reject = _reject;
+    flag.metadata = {};
     return flag;
 }
