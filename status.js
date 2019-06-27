@@ -91,6 +91,7 @@ async function openAll(bookmarks, folderName) {
                 windowId: thisTab.windowId,
             });
             let flag = pending.add(tab.id);
+            flag.metadata.url = bookmark.url;
             flag.then(() => markDone(li))
                 .catch((message) => showError(li, message));
         } catch (e) {
@@ -176,6 +177,7 @@ async function handleNavigationResult(details) {
         // The error might be a JS reload/redirect.  Wait a bit and see if the
         // tab loads something else.  If something else is loading, we should
         // wait for it too; it will trigger this again when it finishes.
+        // Note: this also happens when we reload a hung tab.
         await new Promise(resolve => setTimeout(resolve, 100));
         let tab = await browser.tabs.get(details.tabId).catch(() => null);
         if (tab && tab.status === 'loading') return;
@@ -197,8 +199,7 @@ async function handleNavigationResult(details) {
 
         let metadata = pending.metadata(details.tabId);
         if (!stopped && !metadata.retried) {
-            reloadTab(tabId, metadata);
-            console.log("Retried!");
+            reloadTab(details.tabId, metadata);
             return;
         }
 
@@ -215,11 +216,12 @@ async function handleNavigationResult(details) {
 function reloadTab(tabId, metadata) {
     if (!metadata) metadata = pending.metadata(tabId);
 
+    pending.onReload(metadata, tabId);
     if (metadata.committed) {
-        pending.onReload(metadata, tabId);
         browser.tabs.reload(tabId);
     } else {
-        // TODO tabs.reload() would "reload" about:blank, which is useless.
+        // tabs.reload() would "reload" about:blank, which is useless.
+        browser.tabs.update(tabId, {url: metadata.url});
     }
 }
 
@@ -255,6 +257,8 @@ const GUESS_DELAY = 5000; //ms
 const OKAY_DEVIATIONS = 5;
 
 function checkHungTab(tabId) {
+    let metadata = pending.metadata(tabId);
+
     // If this is one of the first tabs, we don't have enough data to tell
     // whether it's hung yet or not.  Come back later.
     if (timing.length < MIN_DATA_POINTS) {
@@ -264,7 +268,6 @@ function checkHungTab(tabId) {
 
     // Even after MIN_DATA_POINTS, we might have a more accurate guess by now.
     let delay = hungTabTimeout();
-    let metadata = pending.metadata(tabId);
     let now = Date.now();
     if (metadata.timestamp + delay > now) {
         let new_delay = delay - (now - metadata.timestamp);
@@ -277,7 +280,7 @@ function checkHungTab(tabId) {
         return;
     }
 
-    reloadTab(tabId);
+    reloadTab(tabId, metadata);
 }
 
 // Return the delay to use before checking a tab for being hung.
