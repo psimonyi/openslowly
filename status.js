@@ -199,7 +199,7 @@ async function handleNavigationResult(details) {
 
         let metadata = pending.metadata(details.tabId);
         if (!stopped && !metadata.retried) {
-            reloadTab(details.tabId, metadata);
+            reloadTab(details.tabId);
             return;
         }
 
@@ -213,8 +213,8 @@ async function handleNavigationResult(details) {
     }
 }
 
-function reloadTab(tabId, metadata) {
-    if (!metadata) metadata = pending.metadata(tabId);
+function reloadTab(tabId) {
+    let metadata = pending.metadata(tabId);
 
     pending.onReload(metadata, tabId);
     if (metadata.committed) {
@@ -280,7 +280,7 @@ function checkHungTab(tabId) {
         return;
     }
 
-    reloadTab(tabId, metadata);
+    reloadTab(tabId);
 }
 
 // Return the delay to use before checking a tab for being hung.
