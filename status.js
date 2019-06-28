@@ -223,10 +223,11 @@ async function reloadTab(tabId) {
 
     if (metadata.retried >= MAX_RETRIES) return false;
 
-    // Don't reload the current foreground tab; that's just rude.
+    // Don't reload the current foreground tab if it's started loading
+    // something; that's just rude.
     let tab = await browser.tabs.get(tabId);
     let win = await browser.windows.get(tab.windowId);
-    if (tab.active && win.focused) return false;
+    if (metadata.committed && tab.active && win.focused) return false;
 
     pending.onReload(metadata, tabId);
     if (metadata.committed) {
