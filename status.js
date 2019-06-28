@@ -197,8 +197,7 @@ async function handleNavigationResult(details) {
             }
         }
 
-        let metadata = pending.metadata(details.tabId);
-        if (!stopped && !metadata.retried) {
+        if (!stopped) {
             reloadTab(details.tabId);
             return;
         }
@@ -213,8 +212,12 @@ async function handleNavigationResult(details) {
     }
 }
 
+const MAX_RETRIES = 2;
+
 function reloadTab(tabId) {
     let metadata = pending.metadata(tabId);
+
+    if (metadata.retried >= MAX_RETRIES) return;
 
     pending.onReload(metadata, tabId);
     if (metadata.committed) {
@@ -272,11 +275,6 @@ function checkHungTab(tabId) {
     if (metadata.timestamp + delay > now) {
         let new_delay = delay - (now - metadata.timestamp);
         metadata.timeoutId = setTimeout(checkHungTab, new_delay, tabId);
-        return;
-    }
-
-    // Only try reloading once.
-    if (metadata.retried) {
         return;
     }
 
