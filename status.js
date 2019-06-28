@@ -102,13 +102,14 @@ async function openAll(bookmarks, folderName) {
 }
 
 pending.onAdd = function (metadata, tabId) {
+    metadata.retried = 0;
     metadata.timestamp = Date.now();
     metadata.timeoutId = setTimeout(checkHungTab, hungTabTimeout(), tabId);
     metadata.committed = false;
 }
 
 pending.onReload = function (metadata, tabId) {
-    metadata.retried = 1 + (metadata.retried || 0);
+    metadata.retried += 1;
     metadata.timestamp = Date.now();
     clearTimeout(metadata.timeoutId);
     metadata.timeoutId = setTimeout(checkHungTab, hungTabTimeout(), tabId);
@@ -198,8 +199,10 @@ async function handleNavigationResult(details) {
         }
 
         if (!stopped) {
-            reloadTab(details.tabId);
-            return;
+            // If reloadTab decides not to (e.g. because we already tried too
+            // many times) it's important not to return early before calling
+            // pending.finished so the failure will be reported properly.
+            if (await reloadTab(details.tabId)) return;
         }
 
         pending.finished(details.tabId, false, message);
@@ -214,10 +217,16 @@ async function handleNavigationResult(details) {
 
 const MAX_RETRIES = 2;
 
-function reloadTab(tabId) {
+// Reload the tab (with some exceptions).  Return false if we didn't.
+async function reloadTab(tabId) {
     let metadata = pending.metadata(tabId);
 
-    if (metadata.retried >= MAX_RETRIES) return;
+    if (metadata.retried >= MAX_RETRIES) return false;
+
+    // Don't reload the current foreground tab; that's just rude.
+    let tab = await browser.tabs.get(tabId);
+    let win = await browser.windows.get(tab.windowId);
+    if (tab.active && win.focused) return false;
 
     pending.onReload(metadata, tabId);
     if (metadata.committed) {
@@ -226,6 +235,7 @@ function reloadTab(tabId) {
         // tabs.reload() would "reload" about:blank, which is useless.
         browser.tabs.update(tabId, {url: metadata.url});
     }
+    return true;
 }
 
 browser.webNavigation.onCommitted.addListener(function (details) {
