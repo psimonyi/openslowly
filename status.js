@@ -2,11 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import {l10n} from '/fluent/bundle.js';
 import {pending, Flag} from '/pending.js';
 import {nsresult_to_code} from '/nsresult.js';
 import {prefsReady} from '/prefs.js';
-
-const getMessage = browser.i18n.getMessage;
 
 document.addEventListener('DOMContentLoaded', async () => {
     let {os} = await browser.runtime.getPlatformInfo();
@@ -22,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (this.promise) {
             this.promise.resolve();
             delete this.promise;
-            this.textContent = getMessage('buttonPause');
+            l10n.setAttributes(this, 'button-pause');
         } else {
             this.promise = new Flag();
-            this.textContent = getMessage('buttonResume');
+            l10n.setAttributes(this, 'button-resume');
         }
     });
 
@@ -52,7 +51,7 @@ function showList(bookmarks, folderName) {
 
 function showError(li, message) {
     let div = document.createElement('div');
-    div.textContent = message;
+    l10n.setAttributes(div, message.key, message.args);
     div.className = 'error-message';
     li.appendChild(div);
     li.dataset.status = 'error';
@@ -95,7 +94,7 @@ async function openAll(bookmarks, folderName) {
             flag.then(() => markDone(li))
                 .catch((message) => showError(li, message));
         } catch (e) {
-            showError(li, getMessage('errorOpen@', e.message));
+            showError(li, { key: 'error-open', args: { message: e.message }});
         }
     }
     showResult(folderName);
@@ -125,8 +124,8 @@ async function showResult(folderName) {
     await pending.wait_all();
     // TODO: should also indicate whether there were any errors.
     document.getElementById('status').classList.add('success');
-    document.getElementById('status-heading').textContent =
-        getMessage('headingDone');
+    l10n.setAttributes(document.getElementById('status-heading'),
+        'heading-done');
 
     // Show an alert, but only if the preference is set and the status page is
     // not the current focus.
@@ -144,8 +143,8 @@ async function showResult(folderName) {
     let platform = await browser.runtime.getPlatformInfo();
     let notificationId = await browser.notifications.create({
         type: 'basic',
-        title: getMessage('notificationTitle'),
-        message: getMessage('notificationBody', folderName),
+        title: await l10n.formatValue('notification-title'),
+        message: await l10n.formatValue('notification-body', {folderName}),
         iconUrl: (platform.os == 'linux'
             ? '/icon-notify-gnome.svg'
             : '/icon.svg'),
@@ -185,16 +184,16 @@ async function handleNavigationResult(details) {
     }
 
     if (details.error) {
-        let message = getMessage('errorLoad', details.error);
+        let message = { key: 'error-load', args: { message: details.error }};
         let match = /^Error code ([0-9]+)$/.exec(details.error);
         let stopped = false;
         if (match) {
             let code = nsresult_to_code[match[1]];
             if (code == 'NS_BINDING_ABORTED') {
-                message = getMessage('errorStopped');
+                message = { key: 'error-stopped' };
                 stopped = true;
             } else if (code) {
-                message = getMessage('errorLoad', code);
+                message = { key: 'error-load', args: { message: code }};
             }
         }
 
@@ -252,7 +251,7 @@ browser.webNavigation.onCommitted.addListener(function (details) {
 
 browser.tabs.onRemoved.addListener(tabId => {
     if (pending.has(tabId)) {
-        pending.finished(tabId, false, getMessage('errorTabClosed'));
+        pending.finished(tabId, false, { key: 'error-tab-closed' });
     }
 });
 

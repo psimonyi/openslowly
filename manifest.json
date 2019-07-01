@@ -12,8 +12,6 @@
         "page": "background.html"
     },
     
-    "default_locale": "en_CA",
-
     "description": "Open All in Tabs, just not all at once.",
 
     "homepage_url": "https://github.com/psimonyi/openslowly",

@@ -4,23 +4,24 @@
 <!doctype html>
 <meta charset='utf-8'>
 <link rel='stylesheet' href='status.css'>
+<link rel='localization' href='locale/{locale}.ftl'>
 <script src='status.js' type='module'></script>
-<title>Open Bookmarks Slowly</title>
+<title data-l10n-id='name'></title>
 
 <main>
 
 <div id='heading'>
-<h1>Open Bookmarks Slowly</h1>
+<h1 data-l10n-id='name'>Localization failed :(</h1>
 <button id='prefs' type='button'><img src='Preferences.svg'></button>
 </div>
 
 <section id='status'>
-    <h2 id='status-heading'>Opening bookmarks</h2>
-    <button id='pause' type='button'>Stop</button>
+    <h2 id='status-heading' data-l10n-id='heading-working'></h2>
+    <button id='pause' type='button' data-l10n-id='button-pause'></button>
     <div id='progress-container'><progress id='progress'></progress></div>
 </section>
 
-<h2 id='bookmarks-heading'>Bookmarks</h2>
+<h2 id='bookmarks-heading'></h2>
 <ol id='bookmarks-list'>
 </ol>
 

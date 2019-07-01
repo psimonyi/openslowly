@@ -2,15 +2,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import {l10n} from '/fluent/bundle.js';
 const MENUID = 'menuitem';
 
 // Before Firefox 63, onShown didn't work for bookmarks.
 let menuShown = true;
-browser.menus.create({
-    id: MENUID,
-    title: browser.i18n.getMessage("menuLabel"),
-    contexts: ['bookmark'],
-});
+l10n.formatValue('menu').then(menuLabel =>
+    browser.menus.create({
+        id: MENUID,
+        title: menuLabel,
+        contexts: ['bookmark'],
+    }));
 
 browser.menus.onShown.addListener(async function onShown(info) {
     if (!info.contexts.includes('bookmark')) return;
@@ -25,7 +27,7 @@ browser.menus.onShown.addListener(async function onShown(info) {
     if (bookmark.type === 'folder' && !menuShown) {
         browser.menus.create({
             id: MENUID,
-            title: browser.i18n.getMessage("menuLabel"),
+            title: await l10n.formatValue('menu'),
             contexts: ['bookmark'],
         });
         menuShown = true;

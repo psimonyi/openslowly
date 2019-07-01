@@ -12,10 +12,18 @@ files := manifest.json background.html background.js \
     stepbox.css stepbox.js \
     Check.svg More.svg Preferences.svg Warning.svg tab-loading.png \
     icon.svg icon24.svg icon16.svg icon-notify-gnome.svg \
-    _locales
+    locale fluent/bundle.js
+
+openslowly.xpi: $(files)
+	zip --filesync --quiet --recurse-paths $@ $^
 
 icon-notify-gnome.svg: icon16.svg
 	sed -re 's/fill:#000000/fill:#bebeb6/' $^ > $@
 
-openslowly.xpi: $(files)
-	zip --filesync --quiet --recurse-paths $@ $^
+fluent/bundle.js: fluent/index.js fluent/rollup.config.js fluent/node_modules
+	fluent/node_modules/.bin/rollup $< --file $@ --format esm \
+	    --config fluent/rollup.config.js
+
+fluent/node_modules: fluent/package.json
+	cd fluent; npm install
+	touch $@

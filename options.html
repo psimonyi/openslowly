@@ -3,27 +3,23 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <!doctype html>
 <meta charset='utf-8'>
+<link rel='localization' href='locale/{locale}.ftl'>
 <link rel='stylesheet' href='options.css'>
 <script src='options.js' type='module'></script>
 
 <div>
-    <label for='inflight-max'>Maximum number of tabs to load at once:</label>
+    <label for='inflight-max' data-l10n-id='prefs-inflight-max'></label>
     <input  id='inflight-max' type='number' min='1'>
 </div>
 
 <div class='toggle-container-with-text'>
     <input  id='notify' type='checkbox'>
-    <label for='notify'>Notify you when loading is finished</label>
+    <label for='notify' data-l10n-id='prefs-notify'></label>
 </div>
 
 <p id='tip'>
-<b>Tip:</b> If you turned off Firefox’s warning about opening too many tabs
-at once, you might want to turn it back on.
-<button class='action-link' id='tip-show'>Show more »</button>
-<span class='more'>Open Firefox <span id='fx-prefs'>Preferences</span> and
-look under the General section, Tabs subsection.  Enable “Warn you when opening
-multiple tabs might slow down Firefox”.  If the option is missing, it was
-already enabled.  When you get the warning, remember to use Open Bookmarks
-Slowly instead.
-</span>
+<span data-l10n-id='prefs-tip-intro'></span>
+<button class='action-link' id='tip-show' data-l10n-id='prefs-tip-expand'>
+</button>
+<span class='more' data-l10n-id='prefs-tip-text'></span>
 </p>

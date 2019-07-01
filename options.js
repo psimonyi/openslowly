@@ -2,10 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import '/fluent/bundle.js';
 import {prefsReady} from '/prefs.js';
 import '/stepbox.js';
-
-const getMessage = browser.i18n.getMessage;
 
 document.addEventListener('DOMContentLoaded', () => {
     let max = document.getElementById('inflight-max');
@@ -39,12 +38,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tip-show').addEventListener('click', () => {
         document.getElementById('tip').classList.toggle('expanded')
     });
-
-    setPlatformText();
 });
-
-async function setPlatformText() {
-    let {os} = await browser.runtime.getPlatformInfo();
-    let fxPrefs = getMessage(os == 'win' ? 'fxPrefsWin' : 'fxPrefs');
-    document.getElementById('fx-prefs').textContent = fxPrefs;
-}
