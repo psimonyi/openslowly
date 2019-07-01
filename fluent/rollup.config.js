@@ -8,6 +8,9 @@ export default {
             modulesOnly: true,
         }),
     ],
+    output: {
+        banner: '/* *** This is a generated file. *** */\n',
+    },
     onwarn(warning, warn) {
         // Circular dependencies are okay in modules.
         if (warning.code == 'CIRCULAR_DEPENDENCY') return;
