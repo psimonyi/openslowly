@@ -12,7 +12,7 @@ files := manifest.json background.html background.js \
     stepbox.css stepbox.js \
     Check.svg More.svg Preferences.svg Warning.svg tab-loading.png \
     icon.svg icon24.svg icon16.svg icon-notify-gnome.svg \
-    locale fluent/bundle.js
+    locale fluent/bundle.js fluent/NOTICE
 
 openslowly.xpi: $(files)
 	zip --filesync --quiet --recurse-paths $@ $^
