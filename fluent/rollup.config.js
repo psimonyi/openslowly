@@ -8,4 +8,9 @@ export default {
             modulesOnly: true,
         }),
     ],
+    onwarn(warning, warn) {
+        // Circular dependencies are okay in modules.
+        if (warning.code == 'CIRCULAR_DEPENDENCY') return;
+        warn(warning);
+    },
 };

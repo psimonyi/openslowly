@@ -21,8 +21,8 @@ icon-notify-gnome.svg: icon16.svg
 	sed -re 's/fill:#000000/fill:#bebeb6/' $^ > $@
 
 fluent/bundle.js: fluent/index.js fluent/rollup.config.js fluent/node_modules
-	fluent/node_modules/.bin/rollup $< --file $@ --format esm \
-	    --config fluent/rollup.config.js
+	fluent/node_modules/.bin/rollup $< --file $@ \
+	    --format esm --config fluent/rollup.config.js
 
 fluent/node_modules: fluent/package.json
 	cd fluent; npm install
