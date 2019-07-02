@@ -65,6 +65,13 @@ function markDone(li) {
     progress.value += 1;
 }
 
+function showReload(li) {
+    li.classList.add('reload');
+    li.addEventListener('animationend',
+                        () => li.classList.remove('reload'),
+                        {once: true});
+}
+
 async function openAll(bookmarks, folderName) {
     let pause = document.getElementById('pause');
     for (let bookmark of bookmarks) {
@@ -91,6 +98,7 @@ async function openAll(bookmarks, folderName) {
             });
             let flag = pending.add(tab.id);
             flag.metadata.url = bookmark.url;
+            flag.metadata.li = li;
             flag.then(() => markDone(li))
                 .catch((message) => showError(li, message));
         } catch (e) {
@@ -229,6 +237,7 @@ async function reloadTab(tabId) {
     if (metadata.committed && tab.active && win.focused) return false;
 
     pending.onReload(metadata, tabId);
+    showReload(metadata.li);
     if (metadata.committed) {
         browser.tabs.reload(tabId);
     } else {

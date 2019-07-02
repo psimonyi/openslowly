@@ -10,7 +10,8 @@ files := manifest.json background.html background.js \
     options.css options.html options.js prefs.js \
     status.css status.html status.js \
     stepbox.css stepbox.js \
-    Check.svg More.svg Preferences.svg Warning.svg tab-loading.png \
+    Check.svg More.svg Preferences.svg Refresh.svg Warning.svg \
+    tab-loading.png \
     icon.svg icon24.svg icon16.svg icon-notify-gnome.svg \
     locale fluent/bundle.js fluent/NOTICE
 

@@ -34,6 +34,7 @@ li::before {
     height: 16px;
     vertical-align: top;
     margin-top: calc(1.2em - 16px);
+    display: inline-block;
 }
 
 li[data-status='enqueued']::before {
@@ -50,6 +51,22 @@ li[data-status='complete']::before {
 
 li[data-status='error']::before {
     content: url('Warning.svg');
+}
+
+li.reload::before {
+    content: url('Refresh.svg');
+    animation-name: reload-flourish;
+    animation-duration: 1700ms;
+    animation-timing-function: cubic-bezier(0, 0, 0.8, 1);
+}
+
+@keyframes reload-flourish {
+    0% {
+        transform: rotate(-0.85turn);
+    }
+    100% {
+        transform: rotate(0turn);
+    }
 }
 
 #heading {
