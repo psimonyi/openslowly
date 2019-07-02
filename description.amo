@@ -2,18 +2,17 @@ vim: linebreak
 
 The built-in “Open All in Tabs” on bookmark folders is pretty handy — but it opens bookmarks all at once; if you have very big folders to open, it can slow down Firefox and the pages might not load fully.
 
-This extension adds a context menu item “Open All Slowly” for bookmark folders.  The bookmarks are opened a few at a time, waiting for previously-loaded bookmarks to finish first, so that they all have a chance to load completely without slowing things down too much.  You can keep browsing in another window or do something else while bookmarks are loaded in the background.
+This extension adds a context menu item “Open All Slowly” for bookmark folders.  The bookmarks are opened a few at a time, waiting for previously-loaded bookmarks to finish first, so that they all have a chance to load completely without slowing things down too much.  If a tab doesn’t load the page or gets stuck for a long time, it will try again a couple of times.  You can keep browsing in another window or do something else while bookmarks are loaded in the background.  There is an option to get a notification when the bookmarks are all loaded.
 
 <b>Permissions:</b>
 <ul>
 <li><i>Read and modify bookmarks</i>: this extension won’t modify your bookmarks, but it does need to read them to open them.</li>
-<li><i>Access browser tabs</i> is only used to check whether the current tab is unused, so it can be reused for the progress page.</li>
-<li><i>Access browser activity during navigation</i> lets it detect some kinds of tab redirects and tell you when a tab failed to load.</li>
+<li><i>Access browser tabs</i>: it checks whether the current tab is a new tab that can be reused for the progress page.  Surprisingly, the other tab manipulation doesn’t actually require this permission.</li>
+<li><i>Access browser activity during navigation</i>: it monitors tab loading to detect tab redirects, load errors, and generally try to make sure all the bookmarks load.</li>
 <li>The “Open All Slowly” item is added to the context menu for bookmark folders.</li>
 <li>If you enable the option to show a notification when loading is finished, <i>Display notifications to you</i> is requested.</li>
 </ul>
 
 <b>About your rights:</b>
 This extension is Free Software, made available under the terms of the <a href="https://www.mozilla.org/MPL/2.0/">Mozilla Public License, version 2.0</a>. You can download the source code from the <a href="https://github.com/psimonyi/openslowly">repository on GitHub</a>.
-
 It also includes code from <a href="https://projectfluent.org/">Project Fluent</a>, which is available under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> licence.
