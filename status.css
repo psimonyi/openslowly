@@ -52,7 +52,7 @@ li[data-status='error']::before {
 
 #heading {
     display: flex;
-    align-items: start;
+    align-items: baseline;
     justify-content: space-between;
 }
 
@@ -63,6 +63,12 @@ li[data-status='error']::before {
     height: 32px;
     margin-right: 0;
     padding: 0;
+
+    /* Align this button's bottom edge with the baseline of the heading.  The
+     * button's baseline is at the bottom edge of the child image, which is
+     * 16x16.  So the bottom edge of the button is 8px below its baseline. */
+    position: relative;
+    top: -8px;
 }
 
 #prefs img {
