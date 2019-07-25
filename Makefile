@@ -33,3 +33,8 @@ fluent/bundle.js: fluent/index.js fluent/rollup.config.js fluent/node_modules
 fluent/node_modules: fluent/package.json
 	cd fluent; npm install
 	touch $@
+
+.PHONY: source.zip
+source.zip:
+	git archive --format=zip --output=source-$$(git describe).zip -9 HEAD
+	@echo Created source-$$(git describe).zip
