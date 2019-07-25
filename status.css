@@ -14,7 +14,14 @@ main {
 }
 
 .error-message {
-    background-color: #ffe68f;
+    background-color: var(--yellow-50);
+    color: var(--yellow-90);
+}
+@media (prefers-color-scheme: dark) {
+    .error-message {
+        background-color: var(--yellow-80);
+        color: var(--in-content-text-color);
+    }
 }
 
 ol {
