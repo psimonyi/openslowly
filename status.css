@@ -84,15 +84,14 @@ li.reload::before {
     padding: 0;
 
     /* Align this button's bottom edge with the baseline of the heading.  The
-     * button's baseline is at the bottom edge of the child image, which is
-     * 16x16.  So the bottom edge of the button is 8px below its baseline. */
+     * button has no child element, so its baseline is in the middle and it
+     * needs to be shifted up by 50% of the button's height. */
     position: relative;
-    top: -8px;
-}
+    top: -16px;
 
-#prefs img {
-    display: block;
-    margin: auto;
+    background-image: url(Preferences.svg);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #status {
