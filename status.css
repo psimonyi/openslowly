@@ -40,6 +40,11 @@ li::before {
 li[data-status='enqueued']::before {
     content: url('More.svg');
 }
+@media (prefers-color-scheme: dark) {
+    li[data-status='enqueued']::before {
+        content: url('More-dark.svg');
+    }
+}
 
 li[data-status='loading']::before {
     content: url('tab-loading.png');
@@ -48,9 +53,19 @@ li[data-status='loading']::before {
 li[data-status='complete']::before {
     content: url('Check.svg');
 }
+@media (prefers-color-scheme: dark) {
+    li[data-status='complete']::before {
+        content: url('Check-dark.svg');
+    }
+}
 
 li[data-status='error']::before {
     content: url('Warning.svg');
+}
+@media (prefers-color-scheme: dark) {
+    li[data-status='error']::before {
+        content: url('Warning-dark.svg');
+    }
 }
 
 li.reload::before {
@@ -59,6 +74,12 @@ li.reload::before {
     animation-duration: 1700ms;
     animation-timing-function: cubic-bezier(0, 0, 0.8, 1);
 }
+@media (prefers-color-scheme: dark) {
+    li.reload::before {
+        content: url('Refresh-dark.svg');
+    }
+}
+
 
 @keyframes reload-flourish {
     0% {
@@ -93,6 +114,11 @@ li.reload::before {
     background-repeat: no-repeat;
     background-position: center;
 }
+@media (prefers-color-scheme: dark) {
+    #prefs {
+        background-image: url(Preferences-dark.svg);
+    }
+}
 
 #status {
     display: grid;
@@ -117,6 +143,11 @@ li.reload::before {
     vertical-align: top;
     /* (line-height - height) / 2 */
     margin-top: calc((1.4em - 1em) / 2);
+}
+@media (prefers-color-scheme: dark) {
+    #status.success h2::before {
+        content: url('Check-dark.svg');
+    }
 }
 
 #pause {

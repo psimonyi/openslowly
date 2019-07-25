@@ -5,13 +5,15 @@
 .PHONY: default
 default: openslowly.xpi
 
+glyphs := $(foreach suffix,.svg -dark.svg,$(addsuffix $(suffix),\
+    Check More Preferences Refresh Warning))
+
 files := manifest.json background.html background.js \
     nsresult.js pending.js \
     options.css options.html options.js prefs.js \
     status.css status.html status.js \
     stepbox.css stepbox.js \
-    Check.svg More.svg Preferences.svg Refresh.svg Warning.svg \
-    tab-loading.png \
+    $(glyphs) tab-loading.png \
     icon.svg icon24.svg icon16.svg icon-notify-gnome.svg \
     locale fluent/bundle.js fluent/NOTICE
 
@@ -20,6 +22,9 @@ openslowly.xpi: $(files)
 
 icon-notify-gnome.svg: icon16.svg
 	sed -re 's/fill:#000000/fill:#bebeb6/' $^ > $@
+
+%-dark.svg: %.svg
+	sed -re 's/rgba\(12, 12, 13, \.8\)/rgba(249, 249, 250, .8)/' $^ > $@
 
 fluent/bundle.js: fluent/index.js fluent/rollup.config.js fluent/node_modules
 	fluent/node_modules/.bin/rollup $< --file $@ \
