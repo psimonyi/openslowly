@@ -1,8 +1,8 @@
 /* Lots of this is from fluent-web. */
 
-import { negotiateLanguages } from 'fluent-langneg';
-import { FluentBundle } from 'fluent';
-import { DOMLocalization } from 'fluent-dom';
+import { negotiateLanguages } from '@fluent/langneg';
+import { FluentBundle } from '@fluent/bundle';
+import { DOMLocalization } from '@fluent/dom';
 
 // TODO: reconsider how this info is provided
 import { locales, fallbackLocale } from '/locale/meta.js';
