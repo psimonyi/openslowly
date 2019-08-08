@@ -27,20 +27,20 @@ function getResourceLinks(elem) {
     );
 }
 
-async function fetchResource(locale, id) {
+async function fetchSource(locale, id) {
     const url = id.replace('{locale}', locale);
     const response = await fetch(url);
     return response.text();
 }
 
-async function createContext(locale, resourceIds) {
+async function createBundle(locale, resourceIds) {
     const {os} = await browser.runtime.getPlatformInfo();
     const options = {
         functions: {
             PLATFORM: () => os,
         },
     };
-    const ctx = new FluentBundle([locale], options);
+    const bundle = new FluentBundle([locale], options);
 
     // First fetch all resources
     const resources = await Promise.all(
@@ -49,12 +49,12 @@ async function createContext(locale, resourceIds) {
 
     // Then apply them preserving order
     for (const resource of resources) {
-        ctx.addMessages(resource);
+        bundle.addResource(resource);
     }
-    return ctx;
+    return bundle;
 }
 
-async function* generateMessages(resourceIds) {
+async function* generateBundles(resourceIds) {
     // Note: browser.i18n.getUILanguage() seems like it would be the right
     // choice here, but it only returns one language.  navigator.languages
     // gives them all.
@@ -64,14 +64,14 @@ async function* generateMessages(resourceIds) {
         { defaultLocale: fallbackLocale },
     );
     for (const locale of localesToUse) {
-        yield createContext(locale, resourceIds);
+        yield createBundle(locale, resourceIds);
     }
 }
 
 
 const resourceIds = getResourceLinks(document.head);
 const l10n = new DOMLocalization(
-    resourceIds, generateMessages,
+    resourceIds, generateBundles,
 );
 
 // Firefox defines a getter-only document.l10n that doesn't actually work, so
