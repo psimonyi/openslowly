@@ -5,20 +5,12 @@
 @import url('chrome://global/skin/in-content/common.css');
 @import url('stepbox.css');
 
-/* Try to match the rest of the addon detail page; see
- * chrome://mozapps/skin/extensions/extensions.css */
-
 :root {
     -moz-user-select: none;
-    background: var(--in-content-box-background);
-}
 
-:root > * {
-    font-size: 1.11rem;
+    background: var(--in-content-box-background);
     color: var(--in-content-page-color);
 }
-
-/* End matching Firefox styles */
 
 /* These prevent the <browser> from adding a scrollbar; it seems to calculate
  * the height without taking these margins into account. */
