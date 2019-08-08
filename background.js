@@ -5,13 +5,12 @@
 import {l10n} from '/fluent/bundle.js';
 const MENUID = 'menuitem';
 
-// Before Firefox 63, onShown didn't work for bookmarks.
-let menuShown = true;
 l10n.formatValue('menu').then(menuLabel =>
     browser.menus.create({
         id: MENUID,
         title: menuLabel,
         contexts: ['bookmark'],
+        visible: false,
     }));
 
 browser.menus.onShown.addListener(async function onShown(info) {
@@ -24,19 +23,10 @@ browser.menus.onShown.addListener(async function onShown(info) {
     let bookmark = bookmarks[0];
     if (thisShowing != onShown.currentShowing) return;
 
-    if (bookmark.type === 'folder' && !menuShown) {
-        browser.menus.create({
-            id: MENUID,
-            title: await l10n.formatValue('menu'),
-            contexts: ['bookmark'],
-        });
-        menuShown = true;
-        browser.menus.refresh();
-    } else if (bookmark.type !== 'folder' && menuShown) {
-        browser.menus.remove(MENUID);
-        menuShown = false;
-        browser.menus.refresh();
-    }
+    browser.menus.update(MENUID, {
+        visible: (bookmark.type === 'folder'),
+    });
+    browser.menus.refresh();
 });
 
 browser.menus.onClicked.addListener(async function (info) {
