@@ -1,7 +1,7 @@
 /* Lots of this is from fluent-web. */
 
 import { negotiateLanguages } from '@fluent/langneg';
-import { FluentBundle } from '@fluent/bundle';
+import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { DOMLocalization } from '@fluent/dom';
 
 // TODO: reconsider how this info is provided
@@ -44,7 +44,10 @@ async function createBundle(locale, resourceIds) {
 
     // First fetch all resources
     const resources = await Promise.all(
-        resourceIds.map(id => fetchResource(locale, id)),
+        resourceIds.map(id => fetchSource(locale, id)
+                              .then(src => FluentResource.fromString(src)))
+        // For @fluent/bundle@0.14, this becomes:
+        //                    .then(src => new FluentResource(src)))
     );
 
     // Then apply them preserving order
