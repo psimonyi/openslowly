@@ -2,7 +2,7 @@
     "applications": {
         "gecko": {
             "id": "openslowly@ns.petersimonyi.ca",
-            "strict_min_version": "60.0a1"
+            "strict_min_version": "64.0"
         }
     },
 

@@ -130,11 +130,8 @@ li.reload::before {
 #status {
     display: grid;
     max-width: 30em;
-    border-radius: 1em;
-    border: 1px solid var(--in-content-border-color);
     margin-left: auto;
     margin-right: auto;
-    padding: 1em;
 }
 
 #status h2 {
