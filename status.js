@@ -18,10 +18,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.documentElement.classList.add(`fxlt70`);
     }
 
+    if (inDarkMode()) {
+        document.documentElement.classList.add(`dark-mode`);
+    }
+
     let {bookmarks, folderName} = await browser.runtime.sendMessage('ready');
     showList(bookmarks, folderName);
     openAll(bookmarks, folderName);
 });
+
+// The CSS wants to know whether dark mode is enabled.  This is usually managed
+// by the prefers-color-scheme media query.  However, because we use
+// in-content/common.css we need to use dark mode exactly when it does.
+// In Firefox < 67, p-c-s is not supported; mode is always light.
+// In Firefox 67, p-c-s is supported but common.css doesn't use it.
+// In Firefox 68-69, in-content dark mode is controlled by a pref, default off.
+// In Firefox >= 70 that pref defaults on, so in-content dark mode is
+// controlled by p-c-s and all is right in the world.
+// So in Firefox 67-69, there's a good chance that our p-c-s rules match but
+// should not because in-content isn't in dark mode.  We fix that by also
+// adding a class to indicate whether the page is in dark mode.
+// This detects whether the page is in dark mode by checking whether the text
+// colour is lighter than the background colour.
+function inDarkMode() {
+    let style = getComputedStyle(document.documentElement);
+    // (Note that this must compare the computed 'color' and 'background-color'
+    // properties because those will be normalized to rgb() style; custom
+    // properties like '--in-content-page-color' are returned as written.)
+    let fg = luminance(...parseCSSColor(style.color));
+    let bg = luminance(...parseCSSColor(style.backgroundColor));
+    return fg > bg;
+}
+
+// Parse a CSS rgb() colour, and return the components [r, g, b] in the range
+// [0,1].  Ignore any alpha component.
+function parseCSSColor(s) {
+    let m = /^rgba?\(([0-9.]+), ([0-9.]+), ([0-9.]+)(?:, [0-9.]+)?\)$/.exec(s);
+    return [+m[1] / 255, +m[2] / 255, +m[3] / 255];
+}
+
+// Given colour components in the range [0,1], convert the colour from sRGB to
+// a linear (not gamma-compressed) luminance value.
+// https://en.wikipedia.org/wiki/Grayscale
+function luminance(r, g, b) {
+    function ungamma(c) {
+        if (c <= 0.04045) {
+            return c / 12.92
+        } else {
+            return Math.pow((c + 0.055) / 1.055, 2.4)
+        }
+    }
+    return 0.2126 * ungamma(r) + 0.7152 * ungamma(g) + 0.0722 * ungamma(b);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('pause').addEventListener('click', function () {

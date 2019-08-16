@@ -3,9 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 @import url('chrome://global/skin/in-content/common.css');
-/* Firefox 70 is the first to enable dark mode in common.css, so all the
- * prefers-color-scheme rules need to be limited with :not(.fxlt70).
- * (Extensions don't have access to -moz-bool-pref.) */
 
 /* Firefox 70 introduced .card-no-hover so we fake it before then.
  * See https://hg.mozilla.org/mozilla-central/rev/bbde5a300f43 */
@@ -27,7 +24,7 @@ main {
     color: var(--yellow-90);
 }
 @media (prefers-color-scheme: dark) {
-    :not(.fxlt70) .error-message {
+    .dark-mode .error-message {
         background-color: var(--yellow-80);
         color: var(--in-content-text-color);
     }
@@ -57,7 +54,7 @@ li[data-status='enqueued']::before {
     content: url('More.svg');
 }
 @media (prefers-color-scheme: dark) {
-    :not(.fxlt70) li[data-status='enqueued']::before {
+    .dark-mode li[data-status='enqueued']::before {
         content: url('More-dark.svg');
     }
 }
@@ -70,7 +67,7 @@ li[data-status='complete']::before {
     content: url('Check.svg');
 }
 @media (prefers-color-scheme: dark) {
-    :not(.fxlt70) li[data-status='complete']::before {
+    .dark-mode li[data-status='complete']::before {
         content: url('Check-dark.svg');
     }
 }
@@ -79,7 +76,7 @@ li[data-status='error']::before {
     content: url('Warning.svg');
 }
 @media (prefers-color-scheme: dark) {
-    :not(.fxlt70) li[data-status='error']::before {
+    .dark-mode li[data-status='error']::before {
         content: url('Warning-dark.svg');
     }
 }
@@ -91,7 +88,7 @@ li.reload::before {
     animation-timing-function: cubic-bezier(0, 0, 0.8, 1);
 }
 @media (prefers-color-scheme: dark) {
-    :not(.fxlt70) li.reload::before {
+    .dark-mode li.reload::before {
         content: url('Refresh-dark.svg');
     }
 }
@@ -131,7 +128,7 @@ li.reload::before {
     background-position: center;
 }
 @media (prefers-color-scheme: dark) {
-    :not(.fxlt70) #prefs {
+    .dark-mode #prefs {
         background-image: url(Preferences-dark.svg);
     }
 }
@@ -158,7 +155,7 @@ li.reload::before {
     margin-top: calc((1.4em - 1em) / 2);
 }
 @media (prefers-color-scheme: dark) {
-    :not(.fxlt70) #status.success h2::before {
+    .dark-mode #status.success h2::before {
         content: url('Check-dark.svg');
     }
 }
