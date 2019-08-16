@@ -211,3 +211,9 @@ li.reload::before {
     margin-top: 0;
     transition: height 0.5s ease-in 1s, margin-top 0.5s ease-out 1.5s;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    #status.success #progress-container {
+        transition: none;
+    }
+}
