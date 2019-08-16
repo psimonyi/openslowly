@@ -4,6 +4,12 @@
 
 @import url('chrome://global/skin/in-content/common.css');
 
+/* Firefox 70 introduced .card-no-hover so we fake it before then.
+ * See https://hg.mozilla.org/mozilla-central/rev/bbde5a300f43 */
+.fxlt70 .card.card-no-hover:hover {
+    box-shadow: var(--card-shadow);
+}
+
 main {
     margin-top: 3em;
     margin-left: auto;

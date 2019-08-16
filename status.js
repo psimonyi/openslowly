@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     let {os} = await browser.runtime.getPlatformInfo();
     document.documentElement.classList.add(`os-${os}`);
 
+    // For the .card-no-hover rule, we want to know if version<70
+    let {version} = await browser.runtime.getBrowserInfo();
+    let majorVersion = +version.split('.', 1);
+    if (majorVersion < 70) {
+        document.documentElement.classList.add(`fxlt70`);
+    }
+
     let {bookmarks, folderName} = await browser.runtime.sendMessage('ready');
     showList(bookmarks, folderName);
     openAll(bookmarks, folderName);
