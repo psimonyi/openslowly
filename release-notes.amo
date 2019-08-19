@@ -1,0 +1,19 @@
+vim: linebreak textwidth=0 ft=markdown
+
+# Release 1:  11 August 2018
+First release
+
+# Release 2:  22 March 2019
+This release includes general minor improvements, and these new features:
+
+The limit on how many tabs to open at once is now shared between all sessions.  In the previous version, opening two bookmark folders at once with the default limit of 6 tabs at a time would lead to 12 tabs loading at once.
+
+There is a new option to notify you when loading is complete.  Enable this from the extension's preferences page in the Add-on Manager.
+
+OBS will now reuse an empty tab (blank or the new tab page) for its status page.  If you open a new window to open bookmarks in, this means you will no longer be left with its initial empty tab.  <b>This requires the 'tabs' permission, new for this release.</b>
+
+There is now a Stop/Resume button.  It will stop opening new tabs, but currently loading tabs will continue to load as usual.
+
+# Release 3: 2 July 2019
+This release's main new feature is reloading tabs that encounter errors or are taking too long (where "too long" means significantly more than other tabs in the same session, and only after enough tabs have loaded successfully to get a good sample).  Other changes include using Fluent for translation, adding an options button to the status page, and making the status page look better in small windows.
+
