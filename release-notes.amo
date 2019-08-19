@@ -17,3 +17,15 @@ There is now a Stop/Resume button.  It will stop opening new tabs, but currently
 # Release 3: 2 July 2019
 This release's main new feature is reloading tabs that encounter errors or are taking too long (where "too long" means significantly more than other tabs in the same session, and only after enough tabs have loaded successfully to get a good sample).  Other changes include using Fluent for translation, adding an options button to the status page, and making the status page look better in small windows.
 
+# Release 4: 18 August 2019
+New in this release:
+<ul>
+<li>Russian translation, contributed by 'wvxwxvw' (Спасибо!)
+<li>Progress bar doesn't slide closed in reduced motion mode
+<li>Minor style update, including improved support for dark mode on the progress page (Firefox Nightly and 70+).
+</ul>
+
+A note about dark mode support:
+
+Dark mode support in OBS follows Firefox's built-in dark mode support.  It's experimental (requires a pref) in Firefox 68 and 69, but should work by default in Firefox Nightly and, when it arrives, Firefox 70.  Note that the extension icon (in the context menu) can't be changed for dark mode.  This is a technical restriction imposed by Firefox.
+
